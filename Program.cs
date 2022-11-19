@@ -1,6 +1,12 @@
+using ApiToDatabase.Models;
+using ApiToDatabase.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.Configure<UserDatabaseSettings>(
+    builder.Configuration.GetSection("UserDatabase"));
+builder.Services.AddSingleton<UserService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
