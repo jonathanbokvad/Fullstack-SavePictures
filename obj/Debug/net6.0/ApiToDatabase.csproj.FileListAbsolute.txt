@@ -1,0 +1,7 @@
+C:\Users\ac.se.jonathanb\source\repos\ApiToDatabase\obj\Debug\net6.0\ApiToDatabase.csproj.AssemblyReference.cache
+C:\Users\ac.se.jonathanb\source\repos\ApiToDatabase\obj\Debug\net6.0\ApiToDatabase.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ac.se.jonathanb\source\repos\ApiToDatabase\obj\Debug\net6.0\ApiToDatabase.AssemblyInfoInputs.cache
+C:\Users\ac.se.jonathanb\source\repos\ApiToDatabase\obj\Debug\net6.0\ApiToDatabase.AssemblyInfo.cs
+C:\Users\ac.se.jonathanb\source\repos\ApiToDatabase\obj\Debug\net6.0\ApiToDatabase.csproj.CoreCompileInputs.cache
+C:\Users\ac.se.jonathanb\source\repos\ApiToDatabase\obj\Debug\net6.0\ApiToDatabase.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\ac.se.jonathanb\source\repos\ApiToDatabase\obj\Debug\net6.0\ApiToDatabase.MvcApplicationPartsAssemblyInfo.cache
