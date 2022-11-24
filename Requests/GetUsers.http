@@ -1,0 +1,4 @@
+
+
+GET https://localhost:7019/api
+Content-Type: "application/json"

@@ -10,8 +10,12 @@ public class UserService
     public UserService(IOptions<UserDatabaseSettings> userDatabaseSettings)
     {
         var mongoClient = new MongoClient(userDatabaseSettings.Value.ConnectionString);
-        var mongoDatabase = mongoClient.GetDatabase(userDatabaseSettings.Value.DatabaseName);
-        _userCollection = mongoDatabase.GetCollection<User>(userDatabaseSettings.Value.UsersCollectionName);
+        
+        var mongoDatabase = mongoClient
+        .GetDatabase(userDatabaseSettings.Value.DatabaseName);
+        
+        _userCollection = mongoDatabase
+        .GetCollection<User>(userDatabaseSettings.Value.UsersCollectionName);
     }
 
     public async Task<List<User>> GetUsersAsync() 
