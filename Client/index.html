@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="app.js"></script>
     <title>Auth</title>
 </head>
 <body>
@@ -12,16 +13,19 @@
     <header>
         <h1>Authenticate yourself</h1>
     </header>
-    <main>
+    <!-- <main>
         <div class="container">
-            <form id="myForm" action="https://localhost:7019/api">
-                <div class="input">
-                    <input type="text">
-                    <input type="text">
-                </div>
-                <input type="submit" value="Submit">
+            <form id="form">
+                    <input name="username" type="text">
+                    <input name="password" type="password">
+                    <button type="submit">Submit</button>
             </form>
         </div>
-    </main>
+    </main> -->
+    <form id="form">
+        <input name="username" type="text">
+        <input name="password "type="password">
+        <button type="submit">Submit</button>
+    </form> 
 </body>
 </html>
