@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<UserDatabaseSettings>(
     builder.Configuration.GetSection("UserDatabase"));
 
-builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<IUserService, UserServiceMongoDb>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

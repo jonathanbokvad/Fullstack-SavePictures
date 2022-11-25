@@ -1,13 +1,15 @@
 using ApiToDatabase.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Operations.ElementNameValidators;
+
 namespace ApiToDatabase.Services;
 
-public class UserService
+public class UserServiceMongoDb : IUserService
 {
     private readonly IMongoCollection<User> _userCollection;
 
-    public UserService(IOptions<UserDatabaseSettings> userDatabaseSettings)
+    public UserServiceMongoDb(IOptions<UserDatabaseSettings> userDatabaseSettings)
     {
         var mongoClient = new MongoClient(userDatabaseSettings.Value.ConnectionString);
         
@@ -23,9 +25,13 @@ public class UserService
 
     public async Task<User?> GetUserAsync(string id)
     => await _userCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
-
     
     public async Task CreateUserAsync(User newUser) 
     => await _userCollection.InsertOneAsync(newUser);
 
+    public async Task UpdateUserAsync(string id, User updatedUser)
+    => await _userCollection.ReplaceOneAsync(x => x.Id == id, updatedUser);
+
+    public async Task RemoveUserAsync(string id)
+    => await _userCollection.DeleteOneAsync(x => x.Id == id);
 }
