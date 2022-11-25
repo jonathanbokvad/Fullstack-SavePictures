@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-//builder.Services.Configure<UserDatabaseSettings>(
-//    builder.Configuration.GetSection("UserDatabase"));
-builder.Services.AddScoped<IUserService, UserServicePostgres>();
+builder.Services.Configure<UserDatabaseSettings>(
+   builder.Configuration.GetSection("UserDatabase"));
+builder.Services.AddScoped<IUserService, UserServiceMongoDb>();
 
-builder.Services.AddEntityFrameworkNpgsql().AddDbContext<UserDbContext>(opt =>
-        opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnection")));
+// builder.Services.AddEntityFrameworkNpgsql().AddDbContext<UserDbContext>(opt =>
+//         opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnection")));
 
 
 builder.Services.AddControllers();
