@@ -21,10 +21,12 @@ form.addEventListener('submit', function (e) {
         credentials: 'include',
         mode : "no-cors",
         method : "POST",
-        body: {
-            username: payload.get("username"),
-            password: payload.get("password")
-        },
+        body: payload.values()
+        //{       
+        //     // username: payload.get("username"),
+        //     // password: payload.get("password")
+        // }
+        ,
         headers : {
             'Accept': 'application/json'
             
