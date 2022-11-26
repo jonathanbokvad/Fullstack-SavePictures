@@ -30,6 +30,7 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateUser(User newUser)
     {
+        //var req = HttpContext.Request.ReadFormAsync().Result;
         if (newUser is not null)
         {
             await _userService.CreateUserAsync(newUser);
