@@ -14,11 +14,7 @@ h1{
 input{
     margin: 5px;
 }
-.input{
-    display: flex;
-    flex-direction: column
-}
+
 button{
-    padding: 8px;
-    max-width: 50%;
-}
+    margin: 5px;
+} 
