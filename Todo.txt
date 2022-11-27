@@ -1,10 +1,10 @@
-1.
-2.
-3.
-4.
-5.
-6.
-7.
+1. Change dependency injection depending on user preferred database
+2. 
+3. 
+4. 
+5. Add Tailwind
+6. Look if the repository pattern is a viable choice
+7. 
 8.
 9.
 10.
