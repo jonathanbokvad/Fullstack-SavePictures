@@ -13,7 +13,6 @@ builder.Services.AddScoped<IUserService, UserServiceMongoDb>();
 //         opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnection")));
 builder.Services.AddCors(options =>
 {
-
     options.AddDefaultPolicy(
         policy =>
         {
@@ -37,11 +36,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
-
 
 app.Run();
