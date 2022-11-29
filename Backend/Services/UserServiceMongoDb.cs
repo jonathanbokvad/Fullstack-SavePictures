@@ -25,9 +25,13 @@ public class UserServiceMongoDb : IUserService
 
     public async Task<User?> GetUserAsync(string id)
     => await _userCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
-     public async Task<bool> UserExist(string username)
+    public async Task<User?> GetUserByNameAsync(string username)
+    => await _userCollection.Find(x => x.UserName == username).FirstOrDefaultAsync();
+    public async Task<bool> ValidateUserAsync(User user)
+    => await _userCollection.CountDocumentsAsync(x => x.UserName == user.UserName && x.Password == user.Password) >= 1 ? true : false;
+        
+    public async Task<bool> UserExist(string username)
         => await _userCollection.CountDocumentsAsync(x => x.UserName == username) >= 1 ? true: false;
-    
     public async Task CreateUserAsync(User newUser) 
     => await _userCollection.InsertOneAsync(newUser);
 

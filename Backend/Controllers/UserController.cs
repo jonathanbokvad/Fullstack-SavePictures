@@ -26,8 +26,17 @@ public class UserController : ControllerBase
 
         return Ok(user);
     }
-
     [HttpPost]
+    public async Task<IActionResult> LogIn(User user)
+    {
+        if (_userService.ValidateUserAsync(user).Result)
+        {
+           return Ok(true);
+        }
+        return BadRequest();
+    }
+    [HttpPost]
+    [Route("CreateAcc")]
     public async Task<IActionResult> CreateUser(User newUser)
     {
         //var req = HttpContext.Request.ReadFormAsync().Result;
