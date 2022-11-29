@@ -1,10 +1,11 @@
-1. Change dependency injection depending on user preferred database
-2. 
-3. 
-4. 
-5. Add Tailwind
-6. Look if the repository pattern is a viable choice
+1. Add view after login
+2. Look up how to create image management system
+3. Create folders for images in pages
+4. Look how to model image classes
+5. Maybe neew to create a schema for mongodb, how users (tags) are related to images,
+and how images are related (in folder with one tags?)
+6. 
 7. 
 8.
 9.
-10.
+10. Look if the repository pattern is a viable choice
