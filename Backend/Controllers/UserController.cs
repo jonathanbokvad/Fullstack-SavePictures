@@ -31,7 +31,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> CreateUser(User newUser)
     {
         //var req = HttpContext.Request.ReadFormAsync().Result;
-        if (newUser is not null)
+        if (newUser is not null && !_userService.UserExist(newUser.UserName).Result)
         {
             await _userService.CreateUserAsync(newUser);
             return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);

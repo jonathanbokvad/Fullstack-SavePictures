@@ -25,6 +25,8 @@ public class UserServiceMongoDb : IUserService
 
     public async Task<User?> GetUserAsync(string id)
     => await _userCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+     public async Task<bool> UserExist(string username)
+        => await _userCollection.CountDocumentsAsync(x => x.UserName == username) >= 1 ? true: false;
     
     public async Task CreateUserAsync(User newUser) 
     => await _userCollection.InsertOneAsync(newUser);
@@ -34,4 +36,5 @@ public class UserServiceMongoDb : IUserService
 
     public async Task RemoveUserAsync(string id)
     => await _userCollection.DeleteOneAsync(x => x.Id == id);
+
 }
