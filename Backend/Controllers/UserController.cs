@@ -1,6 +1,10 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using ApiToDatabase.Models;
 using ApiToDatabase.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+
 namespace ApiToDatabase.Controllers;
 
 [ApiController]
@@ -8,6 +12,8 @@ namespace ApiToDatabase.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
+
+ 
     public UserController(IUserService userService)
     {
         _userService = userService; 
@@ -31,7 +37,20 @@ public class UserController : ControllerBase
     {
         if (_userService.ValidateUserAsync(user).Result)
         {
-           return Ok(true);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[] {
+                    new Claim("Id", Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                }),
+                Expires = DateTime.UtcNow.AddMinutes(1),
+                Issuer = System.Configuration["Jwt:key"].ToString(),                
+            }
+            JwtSecurityTokenHandler tokenHandler = new();
+            
+
+           return Ok(token);
         }
         return BadRequest();
     }
