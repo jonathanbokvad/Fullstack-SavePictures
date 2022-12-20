@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 using ApiToDatabase.Models;
 using ApiToDatabase.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,12 @@ namespace ApiToDatabase.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
-
+    private readonly IConfiguration _config;
  
-    public UserController(IUserService userService)
+    public UserController(IUserService userService, IConfiguration configuration)
     {
-        _userService = userService; 
+        _userService = userService;
+        _config = configuration;
     }
 
     [HttpGet]
@@ -37,6 +39,7 @@ public class UserController : ControllerBase
     {
         if (_userService.ValidateUserAsync(user).Result)
         {
+            var tokenKey = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] {
@@ -45,12 +48,14 @@ public class UserController : ControllerBase
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(1),
-                Issuer = System.Configuration["Jwt:key"].ToString(),                
-            }
-            JwtSecurityTokenHandler tokenHandler = new();
-            
-
-           return Ok(token);
+                Issuer = _config["Jwt:Issuer"],
+                Audience = _config["Jwt:Audience"],
+                SigningCredentials = new SigningCredentials
+                (new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return Ok(token);
         }
         return BadRequest();
     }
