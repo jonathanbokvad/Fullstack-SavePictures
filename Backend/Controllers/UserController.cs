@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace ApiToDatabase.Controllers;
 
 [ApiController]
-[Route("api")]
+[Route("api/User")]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
