@@ -7,7 +7,7 @@ form.addEventListener('submit', function (e) {
 
     console.log([...payload]);
   
-    fetch("https://localhost:7019/api",{
+    fetch("https://localhost:7019/api/user",{
         method : "POST",
         body : JSON.stringify({
             "username" : payload.get("username"),

@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace ApiToDatabase.Controllers;
 
 [ApiController]
-[Route("api/User")]
+[Route("api/user")]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
@@ -42,11 +42,11 @@ public class UserController : ControllerBase
             var tokenKey = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] {
-                    new Claim("Id", Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                }),
+                //Subject = new ClaimsIdentity(new[] {
+                //    new Claim("Id", Guid.NewGuid().ToString()),
+                //    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                //    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                //}),
                 Expires = DateTime.UtcNow.AddMinutes(1),
                 Issuer = _config["Jwt:Issuer"],
                 Audience = _config["Jwt:Audience"],
