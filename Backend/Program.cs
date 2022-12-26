@@ -44,6 +44,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true
     };
 });
+
 builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();

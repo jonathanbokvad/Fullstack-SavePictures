@@ -57,7 +57,7 @@ public class UserController : ControllerBase
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return Ok(token);
         }
-        return BadRequest();
+        return Unauthorized();
     }
     [HttpPost]
     [Route("CreateAcc")]
