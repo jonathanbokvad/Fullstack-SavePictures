@@ -55,7 +55,7 @@ public class UserController : ControllerBase
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return Ok(token);
+            return Ok(tokenHandler.WriteToken(token));
         }
         return Unauthorized();
     }
