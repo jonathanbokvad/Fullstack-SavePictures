@@ -1,3 +1,6 @@
+//In Validatetoken method an error occurs when trying to
+validate Audience and issuer (set to true); 
+
 1. Add view after login
 2. Look up how to create image management system
 3. Create folders for images in pages
