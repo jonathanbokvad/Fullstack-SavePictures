@@ -14,10 +14,13 @@ form.addEventListener('submit', function (e) {
             "password" : payload.get("password")
         }),
         headers : {
+            'Authorization': 'Bearer ',
             "Accept" : "application/json",
-            "Content-Type" : "application/json"
+            "Content-Type" : "application/json",
+            'Access-Control-Allow-Origin' : 'true'
         }})
         .then(res => res.json())
         .then(data => console.log(data))
+        .then(data => document.cookie = `access_token=[${data}]`)
         .catch(err => console.log(err));
 })

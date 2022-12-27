@@ -5,6 +5,7 @@ using ApiToDatabase.Models;
 using ApiToDatabase.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 
 namespace ApiToDatabase.Controllers;
 
@@ -13,12 +14,11 @@ namespace ApiToDatabase.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
-    private readonly IConfiguration _config;
- 
-    public UserController(IUserService userService, IConfiguration configuration)
+    private readonly IJwtManager _jwtManager;
+    public UserController(IUserService userService, IJwtManager jwtManager)
     {
         _userService = userService;
-        _config = configuration;
+        _jwtManager = jwtManager;
     }
 
     [HttpGet]
@@ -37,27 +37,19 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> LogIn(User user)
     {
-        if (_userService.ValidateUserAsync(user).Result)
+        try
         {
-            var tokenKey = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
-            var tokenDescriptor = new SecurityTokenDescriptor
+            _jwtManager.ValidateToken(HttpContext.Request.Headers.Authorization.ToString().Split("Bearer ")[1]);
+            if (_userService.ValidateUserAsync(user).Result)
             {
-                //Subject = new ClaimsIdentity(new[] {
-                //    new Claim("Id", Guid.NewGuid().ToString()),
-                //    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                //    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                //}),
-                Expires = DateTime.UtcNow.AddMinutes(1),
-                Issuer = _config["Jwt:Issuer"],
-                Audience = _config["Jwt:Audience"],
-                SigningCredentials = new SigningCredentials
-                (new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return Ok(tokenHandler.WriteToken(token));
+                return Ok(_jwtManager.CreateToken());
+            }
+            return Unauthorized();
         }
-        return Unauthorized();
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
     [HttpPost]
     [Route("CreateAcc")]

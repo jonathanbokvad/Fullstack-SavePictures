@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<UserDatabaseSettings>(
    builder.Configuration.GetSection("UserDatabase"));
 builder.Services.AddScoped<IUserService, UserServiceMongoDb>();
+builder.Services.AddScoped<IJwtManager, JwtManager>();
 
 // builder.Services.AddEntityFrameworkNpgsql().AddDbContext<UserDbContext>(opt =>
 //         opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnection")));
@@ -39,8 +40,8 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey
             (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
         ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
         ValidateIssuerSigningKey = true
     };
 });
