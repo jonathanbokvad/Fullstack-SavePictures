@@ -1,5 +1,6 @@
 const form = document.getElementById("login");
-
+//check that form is defined and not null, also check if form has a addeventlistener method
+if (form && form.addEventListener) {
 form.addEventListener('submit', function (e) {
     e.preventDefault();
     
@@ -14,16 +15,28 @@ form.addEventListener('submit', function (e) {
             "password" : payload.get("password")
         }),
         headers : {
-            'Authorization': 'Bearer ',
-            "Accept" : "application/json",
-            "Content-Type" : "application/json",
-            'Access-Control-Allow-Origin' : 'true'
+            Authorization: "Bearer ",
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "true"
         }})
-        .then(res => res.json())
-        .then(data => {
-            // Save the token in a global variable
-            localStorage.setItem('token', `${data}`);
-            console.log(data)
+        .then(response => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Request failed");
         })
-        .catch(err => console.log(err));
-})
+        .then(data => {
+            //check if is not null or undefined, this would cause error when trying to save to localstorage
+            if (data) {
+            // Save the token in a localstorage
+              localStorage.setItem("token", `${data}`);
+              console.log(data);
+              window.location.href = "pages/listview.html";
+            }
+        })
+        .catch(error => {
+            console.log(`Error: ${error}`);
+            alert("An error occurred. Please try again.");
+        });
+})}
