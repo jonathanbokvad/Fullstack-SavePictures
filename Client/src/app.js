@@ -1,5 +1,6 @@
-const form = document.getElementById("login");
+let token;
 
+const form = document.getElementById("login");
 form.addEventListener('submit', function (e) {
     e.preventDefault();
     
@@ -21,6 +22,9 @@ form.addEventListener('submit', function (e) {
         }})
         .then(res => res.json())
         .then(data => console.log(data))
-        .then(data => document.cookie = `access_token=[${data}]`)
+        .then(data => {
+            // Save the token in a variable
+            token = data.token;
+        })
         .catch(err => console.log(err));
 })
