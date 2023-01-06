@@ -20,6 +20,7 @@ public class UserServiceMongoDb : IUserService
         .GetCollection<User>(userDatabaseSettings.Value.UsersCollectionName);
     }
 
+#region UserApi
     public async Task<List<User>> GetUsersAsync() 
     => await _userCollection.Find(_ => true).ToListAsync();
 
@@ -40,5 +41,11 @@ public class UserServiceMongoDb : IUserService
 
     public async Task RemoveUserAsync(string id)
     => await _userCollection.DeleteOneAsync(x => x.Id == id);
+#endregion
+
+#region FolderAndPicturesApi
+
+    
+#endregion
 
 }
