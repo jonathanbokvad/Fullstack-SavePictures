@@ -11,31 +11,22 @@ using MongoDB.Driver;
 
 namespace ApiToDatabase.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/folder")]
 [ApiController]
 public class FoldersController : ControllerBase
 {
-  private readonly IMongoCollection<Folder> _folders;
+    private readonly IUserService _userService;
+    //private readonly IMongoCollection<Folder> _folders;
 
-  public FoldersController(IMongoDatabase database)
+  public FoldersController(IUserService userService)
   {
-    _folders = database.GetCollection<Folder>("folders");
+  //  _folders = database.GetCollection<Folder>("folders");
+        _userService = userService;
   }
 
   [HttpGet]
   public async Task<ActionResult<List<Folder>>> GetFolders()
   {
-    var pipeline = new[] {
-      new BsonDocument("$lookup", new BsonDocument
-      {
-        { "from", "pictures" },
-        { "localField", "pictures" },
-        { "foreignField", "_id" },
-        { "as", "pictures" }
-      })
-    };
-
-    var result = await _folders.AggregateAsync<Folder>(pipeline);
-    return result.ToList();
+    return await _userService.GetFolders();
   }
 }

@@ -1,4 +1,5 @@
 using ApiToDatabase.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ApiToDatabase.Services;
 
@@ -12,5 +13,8 @@ public interface IUserService
     Task CreateUserAsync(User newUser);
     Task UpdateUserAsync(string id, User updatedUser);
     Task RemoveUserAsync(string id);
+
+    
+    Task<ActionResult<List<Folder>>> GetFolders();
 }
 

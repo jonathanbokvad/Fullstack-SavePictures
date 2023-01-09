@@ -7,14 +7,23 @@ namespace ApiToDatabase.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
+        [BsonElement("_id")]
         public ObjectId? Id { get; set; }
+
+        [BsonElement("name")]
         public string Name { get; set; }
+        [BsonElement("pictures")]
         public List<ObjectId> Pictures { get; set; }
     }
-    public class Picture
+    public class Pictures
     {
+        [BsonId]
+        [BsonElement("_id")]
+        [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }
+        [BsonElement("name")]
         public string Name { get; set; }
+        [BsonElement("data")]
         public byte[] Data { get; set; }
     }
 }
