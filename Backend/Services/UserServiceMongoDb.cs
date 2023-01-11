@@ -57,6 +57,7 @@ public class UserServiceMongoDb : IUserService
         //    var pictureArray = doc.Pictures;
         //}
 
+
         //var filter = Builders<Folder>.Filter.AnyEq("pictures", true);
 
         //var filterList= await _userCollection.Database.GetCollection<Folder>("folders").Find(filter).ToListAsync();
