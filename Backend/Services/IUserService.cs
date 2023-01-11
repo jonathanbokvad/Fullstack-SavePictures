@@ -15,6 +15,6 @@ public interface IUserService
     Task RemoveUserAsync(string id);
 
     
-    Task<ActionResult<List<Folder>>> GetFolders();
+    Task<List<Folder>> GetFolders();
 }
 
