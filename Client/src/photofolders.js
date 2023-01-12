@@ -1,48 +1,56 @@
 
 
 
+window.addEventListener('load', () => {
+    renderFolders();
+});
+
+async function getFolders() {
+    try {
+      const response = await fetch('https://localhost:7019/api/folder');
+      console.log(response);
+      const data = await response.json();
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+}
 
 
-// async function getFolders() {
-//     try {
-//       const response = await fetch('/api/folders');
-//       const data = await response.json();
-//       return data;
-//     } catch (error) {
-//       console.error(error);
-//     }
-// }
+async function renderFolders() {
+    const folders = await getFolders();
+    const folderContainer = document.querySelector('.folder-section');
 
-// async function getPictures(folderId) {
-//     try {
-//       const response = await fetch(`/api/pictures?folderId=${folderId}`);
-//       const data = await response.json();
-//       return data;
-//     } catch (error) {
-//       console.error(error);
-//     }
-// }
+    let html = '';
+    for (const folder of folders) {
+      html += `<div class="bg-gray-200 rounded-lg p-4 flex items-center justify-between hover:bg-gray-300 cursor-pointer" data-folder-id="${folder.id}">
+                 <div class="text-lg">${folder.name}</div>
+                 <div class="daisy-icon daisy-icon-folder"></div>
+              </div>`;
+    }
+    folderContainer.innerHTML = html;
 
-// async function renderFolders() {
-//     const folders = await getFolders();
-//     const folderContainer = document.querySelector('.folder-section');
+    // Add event listeners to the folder elements
+    const folderElements = document.querySelectorAll('.folder');
+    for (const folderElement of folderElements) {
+      folderElement.addEventListener('click', async function () {
+        const folderId = this.getAttribute('data-folder-id');
+        const pictures = await getPictures(folderId);
+        renderPictures(pictures);
+      });
+    }
+}
 
-//     let html = '';
-//     for (const folder of folders) {
-//       html += `<div class="folder" data-folder-id="${folder.id}">${folder.name}</div>`;
-//     }
-//     folderContainer.innerHTML = html;
-
-//     // Add event listeners to the folder elements
-//     const folderElements = document.querySelectorAll('.folder');
-//     for (const folderElement of folderElements) {
-//       folderElement.addEventListener('click', async function () {
-//         const folderId = this.getAttribute('data-folder-id');
-//         const pictures = await getPictures(folderId);
-//         renderPictures(pictures);
-//       });
-//     }
-// }
+async function getPictures(folderId) {
+    try {
+        const response = await fetch(`https://localhost:7019/api/pictures/${folderId}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 // function renderPictures(pictures) {
 //     const pictureContainer = document.querySelector('.picture-section');
@@ -53,3 +61,32 @@
 //     }
 //     pictureContainer.innerHTML = html;
 // }
+function renderPictures(pictures) {
+    const pictureContainer = document.querySelector('.picture-section');
+  
+    let html = '';
+    for (const picture of pictures) {
+      html += `<div class="w-full max-w-sm rounded overflow-hidden shadow-lg m-4 cursor-pointer" data-picture-id="${picture.id}">
+                  <img class="w-full" src="${picture.url}" alt="${picture.name}">
+                  <div class="px-6 py-4">
+                    <div class="font-bold text-xl mb-2">${picture.name}</div>
+                    <p class="text-gray-700 text-base">
+                      ${picture.description}
+                    </p>
+                  </div>
+                </div>`;
+    }
+    pictureContainer.innerHTML = html;
+  
+    // Add event listeners to the picture elements
+    const pictureElements = document.querySelectorAll('.picture');
+    for (const pictureElement of pictureElements) {
+      pictureElement.addEventListener('click', function() {
+        // Show modal window with the picture
+        const modal = document.querySelector('.modal');
+        modal.classList.add('block');
+        modal.querySelector('.modal-body').innerHTML = this.innerHTML;
+      });
+    }
+  }
+  

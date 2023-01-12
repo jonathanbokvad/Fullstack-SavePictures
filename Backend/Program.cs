@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.Configure<UserDatabaseSettings>(
    builder.Configuration.GetSection("UserDatabase"));
-builder.Services.AddScoped<IUserService, UserServiceMongoDb>();
+builder.Services.AddScoped<IMongoDbServices, MongoDbContext>();
 builder.Services.AddScoped<IJwtManager, JwtManager>();
 
 // builder.Services.AddEntityFrameworkNpgsql().AddDbContext<UserDbContext>(opt =>

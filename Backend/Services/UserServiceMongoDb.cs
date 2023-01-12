@@ -7,11 +7,11 @@ using MongoDB.Driver.Core.Operations.ElementNameValidators;
 
 namespace ApiToDatabase.Services;
 
-public class UserServiceMongoDb : IUserService
+public class MongoDbContext : IMongoDbServices
 {
     private readonly IMongoCollection<User> _userCollection;
 
-    public UserServiceMongoDb(IOptions<UserDatabaseSettings> userDatabaseSettings)
+    public MongoDbContext(IOptions<UserDatabaseSettings> userDatabaseSettings)
     {
         var mongoClient = new MongoClient(userDatabaseSettings.Value.ConnectionString);
 
@@ -48,9 +48,9 @@ public class UserServiceMongoDb : IUserService
     #region FolderAndPicturesApi
     public async Task<List<Folder>> GetFolders()
     {
-        var folderss = _userCollection.Database.GetCollection<Folder>("folders");
+        var foldersCollection = _userCollection.Database.GetCollection<Folder>("folders");
 
-        List<Folder> folderslist = await folderss.Find(_ => true).ToListAsync();
+        List<Folder> folderslist = await foldersCollection.Find(_ => true).ToListAsync();
 
         //foreach (var doc in folderslist)
         //{
@@ -98,4 +98,23 @@ public class UserServiceMongoDb : IUserService
 
     #endregion
 
+    #region PicturesAPI
+    public async Task<List<Picture>> GetPictures(string folderId)
+    {
+        //Get navigated folder
+        var foldersCollection= _userCollection.Database.GetCollection<Folder>("folders");
+        Folder folder = await foldersCollection.Find(x => x.Id == ObjectId.Parse(folderId)).FirstOrDefaultAsync();
+
+        //Get specific collection and query for all pictures that where inside our navigated folder
+        var picturesCollection = _userCollection.Database.GetCollection<Picture>("pictures");
+        var filter = Builders<Picture>.Filter.In("_id", folder.Pictures.Select(x => ObjectId.Parse(x.ToString())));
+        var pictures = await picturesCollection.Find(filter).ToListAsync();
+
+        return pictures;
+    }
+    //Get the pictures Id to query for in mongoDb
+    //List<string> picturesId = new();
+    //folder.Pictures.Select(s => ObjectId.Parse(s.ToString()));
+
+    #endregion
 }

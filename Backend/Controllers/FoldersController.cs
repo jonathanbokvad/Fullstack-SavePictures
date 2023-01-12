@@ -15,18 +15,18 @@ namespace ApiToDatabase.Controllers;
 [ApiController]
 public class FoldersController : ControllerBase
 {
-    private readonly IUserService _userService;
+    private readonly IMongoDbServices _userService;
     //private readonly IMongoCollection<Folder> _folders;
 
-  public FoldersController(IUserService userService)
-  {
-  //  _folders = database.GetCollection<Folder>("folders");
+    public FoldersController(IMongoDbServices userService)
+    {
+        //  _folders = database.GetCollection<Folder>("folders");
         _userService = userService;
-  }
+    }
 
-  [HttpGet]
-  public async Task<ActionResult<List<Folder>>> GetFolders()
-  {
-    return await _userService.GetFolders();
-  }
+    [HttpGet]
+    public async Task<ActionResult<List<Folder>>> GetFolders()
+    {
+        return Ok(await _userService.GetFolders());
+    }
 }

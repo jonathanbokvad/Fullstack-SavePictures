@@ -15,7 +15,7 @@ namespace ApiToDatabase.Models
         [BsonElement("pictures")]
         public List<ObjectId> Pictures { get; set; }
     }
-    public class Pictures
+    public class Picture
     {
         [BsonId]
         [BsonElement("_id")]

@@ -1,9 +1,10 @@
 using ApiToDatabase.Models;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace ApiToDatabase.Services;
 
-public interface IUserService
+public interface IMongoDbServices
 {
     Task<bool> ValidateUserAsync(User user);
     Task<List<User>> GetUsersAsync();
@@ -16,5 +17,8 @@ public interface IUserService
 
     
     Task<List<Folder>> GetFolders();
+
+
+    Task<List<Picture>> GetPictures(string folderId);
 }
 
