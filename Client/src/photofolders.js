@@ -24,15 +24,15 @@ async function renderFolders() {
 
     let tbody = '';
     for (const folder of folders) {
-      tbody += `<tr class="folder hover:bg-blue-600" data-folder-id="${folder.id}">
-      <td class="p-3">
+       tbody += `<tr class="folder hover:bg-blue-600" data-folder-id="${folder.id}">
+      <td class="p-3 ">
       ${folder.name}
         </td>
       <td class="p-3">
-      ${folder.numberOfPictures}
+      ${folder.pictures.length}
       </td>
       <td class="p-3">
-      ${folder.createdAt}
+      ${folder.id.creationTime.substring(0,10)}
       </td>
       <td class="p-3">
         <a href="#" class="text-gray-400 hover:text-gray-100  mx-2">
