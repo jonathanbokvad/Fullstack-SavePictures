@@ -22,14 +22,36 @@ async function renderFolders() {
     const folders = await getFolders();
     const folderContainer = document.querySelector('.folder-section');
 
-    let html = '';
+    let tbody = '';
     for (const folder of folders) {
-      html += `<div class="bg-gray-200 rounded-lg p-4 flex items-center justify-between hover:bg-gray-300 cursor-pointer" data-folder-id="${folder.id}">
-                 <div class="text-lg">${folder.name}</div>
-                 <div class="daisy-icon daisy-icon-folder"></div>
-              </div>`;
+      tbody += `<tr class="folder hover:bg-blue-600" data-folder-id="${folder.id}">
+      <td class="p-3">
+      ${folder.name}
+        </td>
+      <td class="p-3">
+      ${folder.numberOfPictures}
+      </td>
+      <td class="p-3">
+      ${folder.createdAt}
+      </td>
+      <td class="p-3">
+        <a href="#" class="text-gray-400 hover:text-gray-100  mx-2">
+          <i class="material-icons-outlined text-base">edit</i>
+        </a>
+        <a href="#" class="text-gray-400 hover:text-gray-100  ml-2">
+          <i class="material-icons-round text-base">delete</i>
+        </a>
+      </td>
+    </tr>`;
+      
     }
-    folderContainer.innerHTML = html;
+    folderContainer.innerHTML = tbody;
+      // html += `<div class="bg-gray-200 rounded-lg p-4 flex items-center justify-between hover:bg-gray-300 cursor-pointer" data-folder-id="${folder.id}">
+      //            <div class="text-lg">${folder.name}</div>
+      //            <div class="daisy-icon daisy-icon-folder"></div>
+      //         </div>`;
+
+  //tbody += `<div class="bg-gray-200 rounded-lg p-4 flex items-center justify-between hover:bg-gray-300 cursor-pointer" data-folder-id="${folder.id}"> <div class="text-lg">${folder.name}</div> <div class="daisy-icon daisy-icon-folder"></div> </div>`
 
     // Add event listeners to the folder elements
     const folderElements = document.querySelectorAll('.folder');
