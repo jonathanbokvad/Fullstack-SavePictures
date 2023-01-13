@@ -8,7 +8,10 @@ namespace ApiToDatabase.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         [BsonElement("_id")]
-        public ObjectId? Id { get; set; }
+        public string? Id { get; set; }
+
+        //[BsonRepresentation(BsonType.Timestamp)]
+        //public string? creationTime { get; set; }
 
         [BsonElement("name")]
         public string Name { get; set; }

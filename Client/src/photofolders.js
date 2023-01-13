@@ -8,8 +8,8 @@ window.addEventListener('load', () => {
 async function getFolders() {
     try {
       const response = await fetch('https://localhost:7019/api/folder');
-      console.log(response);
       const data = await response.json();
+      console.log(data);
       console.log(data);
       return data;
     } catch (error) {
@@ -24,6 +24,7 @@ async function renderFolders() {
 
     let tbody = '';
     for (const folder of folders) {
+      console.log(folder.id);
        tbody += `<tr class="folder hover:bg-blue-600" data-folder-id="${folder.id}">
       <td class="p-3 ">
       ${folder.name}
@@ -32,7 +33,7 @@ async function renderFolders() {
       ${folder.pictures.length}
       </td>
       <td class="p-3">
-      ${folder.id.creationTime.substring(0,10)}
+      ${folder}
       </td>
       <td class="p-3">
         <a href="#" class="text-gray-400 hover:text-gray-100  mx-2">
@@ -43,7 +44,7 @@ async function renderFolders() {
         </a>
       </td>
     </tr>`;
-      
+    //${folder.id.creationTime.substring(0,10)}
     }
     folderContainer.innerHTML = tbody;
       // html += `<div class="bg-gray-200 rounded-lg p-4 flex items-center justify-between hover:bg-gray-300 cursor-pointer" data-folder-id="${folder.id}">
@@ -56,13 +57,22 @@ async function renderFolders() {
     // Add event listeners to the folder elements
     const folderElements = document.querySelectorAll('.folder');
     for (const folderElement of folderElements) {
+      //console.log(folderElement);
       folderElement.addEventListener('click', async function () {
-        const folderId = this.getAttribute('data-folder-id');
-        const pictures = await getPictures(folderId);
-        renderPictures(pictures);
+        const folderId = folderElement.getAttribute('data-folder-id');
+        window.location.href = '/Client/src/pages/pictureslist.html?folderId=' + folderId.toString();
+        window.onload = async function() {
+          const folderId = new URLSearchParams(window.location.search).get('folderId');
+          const pictures = await getPictures(folderId);
+          renderPictures(pictures);
+        } 
       });
     }
 }
+
+// const folderId = this.getAttribute('data-folder-id');
+// const pictures = await getPictures(folderId);
+// renderPictures(pictures);
 
 async function getPictures(folderId) {
     try {

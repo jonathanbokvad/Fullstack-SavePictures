@@ -45,56 +45,58 @@ public class MongoDbContext : IMongoDbServices
     => await _userCollection.DeleteOneAsync(x => x.Id == id);
     #endregion
 
-    #region FolderAndPicturesApi
+    #region Folders Api
     public async Task<List<Folder>> GetFolders()
     {
         var foldersCollection = _userCollection.Database.GetCollection<Folder>("folders");
 
         List<Folder> folderslist = await foldersCollection.Find(_ => true).ToListAsync();
 
-        //foreach (var doc in folderslist)
-        //{
-        //    var pictureArray = doc.Pictures;
-        //}
-
-
-        //var filter = Builders<Folder>.Filter.AnyEq("pictures", true);
-
-        //var filterList= await _userCollection.Database.GetCollection<Folder>("folders").Find(filter).ToListAsync();
-
-
-        //_userCollection.Database.GetCollection<Pictures>("pictures");
-        //var folders = await folderslist;
         return folderslist;
-        //var listfolders = folderss.Find(_ => true).ToListAsync();
-        //return listfolders;
+    }
+    //foreach (var doc in folderslist)
+    //{
+    //    var pictureArray = doc.Pictures;
+    //}
 
-        //Task<ActionResult<List<Folder>>>
+
+    //var filter = Builders<Folder>.Filter.AnyEq("pictures", true);
+
+    //var filterList= await _userCollection.Database.GetCollection<Folder>("folders").Find(filter).ToListAsync();
+
+
+    //_userCollection.Database.GetCollection<Pictures>("pictures");
+    //var folders = await folderslist;
+
+    //var listfolders = folderss.Find(_ => true).ToListAsync();
+    //return listfolders;
+
+    //Task<ActionResult<List<Folder>>>
     //    try
     //    {
 
-        //    var _folders = _userCollection.Database.GetCollection<Folder>("folders");
-        //        //var _folders = database.GetCollection<Folder>("folders");
-        //        var pipeline = new[] {
-        //  new BsonDocument("$lookup", new BsonDocument
-        //  {
-        //    { "from", "pictures" },
-        //    { "localField", "pictures" },
-        //    { "foreignField", "_id" },
-        //    { "as", "pictures" }
-        //  })
-        //};
+    //    var _folders = _userCollection.Database.GetCollection<Folder>("folders");
+    //        //var _folders = database.GetCollection<Folder>("folders");
+    //        var pipeline = new[] {
+    //  new BsonDocument("$lookup", new BsonDocument
+    //  {
+    //    { "from", "pictures" },
+    //    { "localField", "pictures" },
+    //    { "foreignField", "_id" },
+    //    { "as", "pictures" }
+    //  })
+    //};
 
-        //        var result = await _folders.AggregateAsync<Folder>(pipeline);
-        //        return result.ToList();
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        Console.WriteLine(ex.ToString());
-        //        throw;
-        //    }
-        //    return null;
-    }
+    //        var result = await _folders.AggregateAsync<Folder>(pipeline);
+    //        return result.ToList();
+    //    }
+    //    catch(Exception ex)
+    //    {
+    //        Console.WriteLine(ex.ToString());
+    //        throw;
+    //    }
+    //    return null;
+
 
     #endregion
 
@@ -103,7 +105,7 @@ public class MongoDbContext : IMongoDbServices
     {
         //Get navigated folder
         var foldersCollection= _userCollection.Database.GetCollection<Folder>("folders");
-        Folder folder = await foldersCollection.Find(x => x.Id == ObjectId.Parse(folderId)).FirstOrDefaultAsync();
+        Folder folder = await foldersCollection.Find(x => x.Id == folderId/*== ObjectId.Parse(folderId)*/).FirstOrDefaultAsync();
 
         //Get specific collection and query for all pictures that where inside our navigated folder
         var picturesCollection = _userCollection.Database.GetCollection<Picture>("pictures");
