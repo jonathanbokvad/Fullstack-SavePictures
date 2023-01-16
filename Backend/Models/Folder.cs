@@ -21,9 +21,10 @@ namespace ApiToDatabase.Models
     public class Picture
     {
         [BsonId]
-        [BsonElement("_id")]
         [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId Id { get; set; }
+        [BsonElement("_id")]
+        public string Id { get; set; }
+
         [BsonElement("name")]
         public string Name { get; set; }
         [BsonElement("data")]

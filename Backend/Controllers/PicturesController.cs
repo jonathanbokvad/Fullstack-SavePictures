@@ -23,5 +23,18 @@ namespace ApiToDatabase.Controllers
         {
             return Ok(await _userService.GetPictures(folderId));
         }
+        [HttpDelete]
+        public IActionResult DeletePictures(string folderId) 
+        {
+            try
+            {
+                _userService.DeletePicture(folderId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }    
+        }
     }
 }

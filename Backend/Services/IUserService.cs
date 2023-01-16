@@ -20,5 +20,6 @@ public interface IMongoDbServices
 
 
     Task<List<Picture>> GetPictures(string folderId);
+    void DeletePicture(string pictureId);
 }
 

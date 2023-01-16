@@ -11,17 +11,26 @@
     <title>Photos</title>
 </head>
 <body class="font-roboto"> 
-    <div class="card w-96 bg-base-100 shadow-xl">
-        <figure><img src="https://placeimg.com/400/225/arch" alt="Shoes" /></figure>
-        <div class="card-body">
-          <h2 class="card-title">Shoes!</h2>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
-          <div class="card-actions justify-end">
-            <button class="btn btn-primary">Buy Now</button>
-          </div>
-        </div>
-      </div>
+    
+  <div class="imgGrid flex flex-wrap">
+    <!-- <div>
+      <img class="picture hover:scale-105 transition-all w-full max-w-sm rounded overflow-hidden shadow-lg m-4 cursor-pointer" src="data:image/jpeg;base64, ${picture.data}" alt="${picture.name}">
+    </div> -->
+</div>
+
+<div class="modal fixed top-0 left-0 w-full h-full flex items-center justify-center modal-close" id="imageModal">
+  <div class="modal-overlay  w-full h-full opacity-50"></div>
+  <div class="modal-container bg-white md:max-w-2xl mx-auto rounded-lg overflow-y-auto">
+    
+    
+    
+    
+    <!-- <div class="modal-content py-4 text-left px-6">
+      <button class="modal-close"> Close </button>
+    </div> -->
+  </div>
+</div>
 <script src="https://cdn.tailwindcss.com"></script>
-<script  src="/Client/src/photofolders.js"></script>
+<script  src="/Client/src/pages/photo.js"></script>
 </body>
 </html>

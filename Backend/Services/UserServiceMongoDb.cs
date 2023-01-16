@@ -4,6 +4,9 @@ using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Operations.ElementNameValidators;
+using System;
+using ZstdSharp.Unsafe;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ApiToDatabase.Services;
 
@@ -48,11 +51,32 @@ public class MongoDbContext : IMongoDbServices
     #region Folders Api
     public async Task<List<Folder>> GetFolders()
     {
-        var foldersCollection = _userCollection.Database.GetCollection<Folder>("folders");
 
-        List<Folder> folderslist = await foldersCollection.Find(_ => true).ToListAsync();
+        try
+        {
 
-        return folderslist;
+            //var foldersCollection = _userCollection.Database.GetCollection<Folder>("folders");
+
+            //List<Folder> folderslist = await foldersCollection.Find(_ => true).ToListAsync();
+
+            return new List<Folder> { 
+                new Folder {
+                Id = "63bca2071107a8fb0d435e68",
+                Name = "Folder 1",
+                Pictures = new List<ObjectId>{new ObjectId("63bca20c1107a8fb0d435e69"), new ObjectId("63bca2111107a8fb0d435e6a") }
+                
+            },
+            new Folder {
+                Id = "63bf0f7fe6f1167a5bbbf6cf",
+                Name = "Folder 2",
+             Pictures = new List<ObjectId>{new ObjectId("63bca20c1107a8fb0d435e69") } 
+            }};
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+
     }
     //foreach (var doc in folderslist)
     //{
@@ -103,16 +127,56 @@ public class MongoDbContext : IMongoDbServices
     #region PicturesAPI
     public async Task<List<Picture>> GetPictures(string folderId)
     {
-        //Get navigated folder
-        var foldersCollection= _userCollection.Database.GetCollection<Folder>("folders");
-        Folder folder = await foldersCollection.Find(x => x.Id == folderId/*== ObjectId.Parse(folderId)*/).FirstOrDefaultAsync();
+        ////Get navigated folder
+        //var foldersCollection= _userCollection.Database.GetCollection<Folder>("folders");
+        //Folder folder = await foldersCollection.Find(x => x.Id == folderId/*== ObjectId.Parse(folderId)*/).FirstOrDefaultAsync();
 
-        //Get specific collection and query for all pictures that where inside our navigated folder
-        var picturesCollection = _userCollection.Database.GetCollection<Picture>("pictures");
-        var filter = Builders<Picture>.Filter.In("_id", folder.Pictures.Select(x => ObjectId.Parse(x.ToString())));
-        var pictures = await picturesCollection.Find(filter).ToListAsync();
+        ////Get specific collection and query for all pictures that where inside our navigated folder
+        //var picturesCollection = _userCollection.Database.GetCollection<Picture>("pictures");
+        //var filter = Builders<Picture>.Filter.In("_id", folder.Pictures.Select(x => ObjectId.Parse(x.ToString())));
+        //var pictures = await picturesCollection.Find(filter).ToListAsync();
+        try
+        {
 
-        return pictures;
+        byte[] imageBytes;
+        using (var ms = new MemoryStream())
+        {
+            var image = File.ReadAllBytes(@"C:\Users\ac.se.jonathanb\OneDrive - Origo hf\Pictures\Picture1.png");
+            ms.Write(image, 0, image.Length);
+            imageBytes = ms.ToArray();
+        }
+        byte[] imageBytes2;
+        using (var ms = new MemoryStream())
+        {
+            var image = File.ReadAllBytes(@"C:\Users\ac.se.jonathanb\OneDrive - Origo hf\Pictures\DSCF0332.jpg");
+            ms.Write(image, 0, image.Length);
+            imageBytes2 = ms.ToArray();
+        }
+
+        return new List<Picture>
+        {
+            new Picture
+            {
+                Id = "63bca20c1107a8fb0d435e69",
+                Name= "picture 11",
+                Data = imageBytes
+            },
+            new Picture
+            {
+                 Id = "63bca2111107a8fb0d435e6a",
+                Name= "picture 32",
+                Data = imageBytes2
+            }
+        };
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+    }
+    public async void DeletePicture(string pictureId)
+    {
+        await _userCollection.Database.GetCollection<Picture>("pictures").DeleteOneAsync(x => x.Id == pictureId);
     }
     //Get the pictures Id to query for in mongoDb
     //List<string> picturesId = new();
