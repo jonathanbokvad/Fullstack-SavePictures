@@ -176,7 +176,8 @@ public class MongoDbContext : IMongoDbServices
     }
     public async void DeletePicture(string pictureId)
     {
-        await _userCollection.Database.GetCollection<Picture>("pictures").DeleteOneAsync(x => x.Id == pictureId);
+        var das = await _userCollection.Database.GetCollection<Picture>("pictures").DeleteOneAsync(x => x.Id == pictureId);
+
     }
     //Get the pictures Id to query for in mongoDb
     //List<string> picturesId = new();

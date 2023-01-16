@@ -67,7 +67,7 @@ function DeleteButton(){
     const button = document.querySelector('.delete-btn');
     button.addEventListener('click', function (){
         const pictureId = this.parentNode.querySelector('img').getAttribute('data-picture-id');
-        fetch(`https://localhost:7019/api/pictures/${pictureId}`, {method: 'DELETE'})
+        fetch(`https://localhost:7019/api/pictures?pictureId=${pictureId}`, {method: 'DELETE'})
         .then(response => response.json())
         .then(getPictures())
         .catch(error => console.log(error))
