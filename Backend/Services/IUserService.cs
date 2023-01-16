@@ -1,6 +1,7 @@
 using ApiToDatabase.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace ApiToDatabase.Services;
 
@@ -20,6 +21,6 @@ public interface IMongoDbServices
 
 
     Task<List<Picture>> GetPictures(string folderId);
-    void DeletePicture(string pictureId);
+    Task<DeleteResult> DeletePicture(string pictureId);
 }
 

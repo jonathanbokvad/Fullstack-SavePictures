@@ -174,10 +174,10 @@ public class MongoDbContext : IMongoDbServices
             throw;
         }
     }
-    public async void DeletePicture(string pictureId)
+    public async Task<DeleteResult> DeletePicture(string pictureId)
     {
-        var das = await _userCollection.Database.GetCollection<Picture>("pictures").DeleteOneAsync(x => x.Id == pictureId);
-
+        var deletedResult = await _userCollection.Database.GetCollection<Picture>("pictures").DeleteOneAsync(x => x.Id == pictureId);
+        return deletedResult;
     }
     //Get the pictures Id to query for in mongoDb
     //List<string> picturesId = new();

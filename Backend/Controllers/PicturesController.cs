@@ -24,11 +24,11 @@ namespace ApiToDatabase.Controllers
             return Ok(await _userService.GetPictures(folderId));
         }
         [HttpDelete]
-        public IActionResult DeletePictures(string pictureId) 
+        public async Task<IActionResult> DeletePictures(string pictureId) 
         {
             try
             {
-                _userService.DeletePicture(pictureId);
+                var ds = await _userService.DeletePicture(pictureId);
                 return NoContent();
             }
             catch (Exception ex)
