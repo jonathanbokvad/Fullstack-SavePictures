@@ -15,6 +15,7 @@ namespace ApiToDatabase.Models
 
         [BsonElement("name")]
         public string Name { get; set; }
+
         [BsonElement("pictures")]
         public List<ObjectId> Pictures { get; set; }
     }
@@ -27,8 +28,9 @@ namespace ApiToDatabase.Models
 
         [BsonElement("name")]
         public string Name { get; set; }
+
         [BsonElement("data")]
-        public byte[] Data { get; set; }
+        public BsonBinaryData BinaryData { get; set; }
     }
 }
 

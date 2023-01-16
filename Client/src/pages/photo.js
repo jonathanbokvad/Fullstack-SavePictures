@@ -8,6 +8,7 @@ async function getPictures(folderId) {
     try {
         const response = await fetch(`https://localhost:7019/api/pictures?folderId=${folderId}`);
         let data = await response.json();
+        console.log(data);
         return data;
     } catch (error) {
         console.error(error);
@@ -28,6 +29,8 @@ async function renderPictures(pictures) {
     let html = '';
     //data-picture-id="${picture.id}";
     for (const picture of pictures) {
+        console.log(pictures);
+        console
       html += `<div>
                 <img data-picture-id="${picture.id}" class="picture hover:scale-105 transition-all w-full max-w-sm rounded overflow-hidden shadow-lg m-4 cursor-pointer" src="data:image/jpeg;base64, ${picture.data}" alt="${picture.name}">
                 </div>`;
@@ -69,7 +72,8 @@ function DeleteButton(){
         const pictureId = this.parentNode.querySelector('img').getAttribute('data-picture-id');
         fetch(`https://localhost:7019/api/pictures?pictureId=${pictureId}`, {method: 'DELETE'})
         .then(response => response.json())
-        .then(getPictures())
+        .then(data => console.log(data))
         .catch(error => console.log(error))
+        .finally(getPictures())
     })
 }
