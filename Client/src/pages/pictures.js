@@ -102,11 +102,11 @@ function AddPicture() {
           const byteArray = new Uint8Array(reader.result);
           const base64 = btoa(new Uint8Array(byteArray).reduce((data, byte) => data + String.fromCharCode(byte), ''));
           const data = `data:${file.type};base64,${base64}`;
-          console.log(base64);
+          console.log(data);
           await fetch("https://localhost:7019/api/pictures/create", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ image: base64, contentType: file.type })
+            body: JSON.stringify({ image: data, contentType: file.type })
           })
             .then(response => console.log(response.json()))
             then(data => console.log(data))
