@@ -25,7 +25,7 @@ async function renderPictures(pictures) {
                 <img data-picture-id="${picture.id}" class="picture hover:scale-105 transition-all w-full max-w-sm rounded overflow-hidden shadow-lg m-4 cursor-pointer" src="data:image/jpeg;base64, ${picture.binaryData}" alt="${picture.name}">
                 </div>`;
 
-};
+}
 pictureContainer.innerHTML = html;
 // `<div class="w-full max-w-sm rounded overflow-hidden shadow-lg m-4 cursor-pointer bg-cover bg-center photo-id">
 //               <img class="w-full" src="data:image/jpeg;base64, ${picture.data}" alt="${picture.name}">
@@ -91,6 +91,7 @@ function DeletePicture(){
 //     input.click();
 //   }
   
+// eslint-disable-next-line no-unused-vars
 function AddPicture() {
     let input = document.createElement('input');
     input.type = 'file';
@@ -111,7 +112,7 @@ function AddPicture() {
             body: JSON.stringify({ image: data, contentType: file.type })
           })
             .then(response => console.log(response.json()))
-            then(data => console.log(data))
+            .then(data => console.log(data))
             .catch(error => console.log(error));
       };
     }
