@@ -47,11 +47,11 @@ namespace ApiToDatabase.Controllers
 
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> CreatePicture([FromBody] ImageModel image)
+        public async Task<IActionResult> CreatePicture([FromBody] PictureRequest pictureRequest)
         {
             try
             {
-                byte[] imageBytes = Convert.FromBase64String(image.Image);
+                byte[] imageBytes = Convert.FromBase64String(pictureRequest.Data);
                 var result = _userService.CreatePictureTest(imageBytes, "");
                 return Created("https://localhost:7019/api/pictures", result);
             }
@@ -63,8 +63,7 @@ namespace ApiToDatabase.Controllers
     }
 }
 
-public class ImageModel
+public class PictureRequest
 {
-    public string Image { get; set; }
-    public string ContentType { get; set; }
+    public string Data { get; set; }
 }

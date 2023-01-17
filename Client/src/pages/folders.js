@@ -16,10 +16,9 @@ async function getFolders() {
 
 
 async function renderFolders() {
-  if(window.location.pathname === "/Client/src/pages/listview.html"){
+  if(window.location.pathname === "/Client/src/pages/foldersview.html"){
     const folders = await getFolders();
     const folderContainer = document.querySelector('.folder-section');
-
   let tbody = '';
   for (const folder of folders) {
     tbody += `<tr class="folder hover:bg-blue-600 cursor-pointer" data-folder-id="${folder.id}">
