@@ -98,6 +98,8 @@ function AddPicture() {
       const file = input.files[0];
       const reader = new FileReader();
       reader.readAsArrayBuffer(file);
+      console.log(reader);
+      console.log(reader.result);
       reader.onloadend = async function() {
           const byteArray = new Uint8Array(reader.result);
           const base64 = btoa(new Uint8Array(byteArray).reduce((data, byte) => data + String.fromCharCode(byte), ''));

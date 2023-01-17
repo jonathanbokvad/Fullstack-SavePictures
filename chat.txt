@@ -1,0 +1,56 @@
+[Route("api/[controller]")]
+public class ImageController : Controller
+{
+    [HttpPost]
+    public IActionResult CreateArrayBuffer()
+    {
+        using (var ms = new MemoryStream())
+        {
+            Request.Body.CopyTo(ms);
+            var imageBytes = ms.ToArray();
+            // logic to handle the byte array here
+        }
+        return Ok();
+    }
+}
+And here's an example of how you can create a .NET Core 6 Web API method to receive the Blob call:
+
+Copy code
+[Route("api/[controller]")]
+public class ImageController : Controller
+{
+    [HttpPost]
+    public IActionResult CreateBlob()
+    {
+        var file = Request.Form.Files[0];
+        using (var ms = new MemoryStream())
+        {
+            file.CopyTo(ms);
+            var imageBytes = ms.ToArray();
+            // logic to handle the byte array here
+        }
+        return Ok();
+    }
+}
+Both of the above examples will
+
+
+
+
+Jonathan Bokvad
+what are the diffrences to use blob or arraybuffer? Which should i use?
+The main difference between Blob and ArrayBuffer is how they represent binary data.
+
+ArrayBuffer is a JavaScript typed array, which represents a fixed-length binary data buffer. It can be used to store any binary data, such as an image file, audio file, or video file.
+
+Blob is a JavaScript object that represents a file-like object of immutable, raw data. It can be used to store any binary data, such as an image file, audio file, or video file.
+
+In terms of usage, they are similar, and it is up to you to choose which one to use.
+
+ArrayBuffer is more low-level, it's just a plain array of bytes and you need to convert it to a typed array like Uint8Array before sending it to the server.
+
+Blob is more high-level, it's an object that can be sent directly to the server and also has some built-in methods like slice() that can be used to manipulate the data.
+
+In general, you should use ArrayBuffer if you need to perform low-level manipulation of the data, and you should use Blob if you don't need to perform low-level manipulation and just need to send the data to the server.
+
+It's also important to note that the server-side should be able to handle the data format you are sending. In this case, it should be able to handle both ArrayBuffer and Blob as they are both binary data.
