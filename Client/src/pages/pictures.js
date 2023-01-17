@@ -117,6 +117,7 @@ function DeletePicture(){
 //     input.click();
 //   }
 
+
 // eslint-disable-next-line no-unused-vars
 function AddPicture() {
     let input = document.createElement('input');
@@ -141,7 +142,9 @@ function AddPicture() {
             .then(response => console.log(response.json()))
             .then(data => console.log(data))
             .catch(error => console.log(error));
+            const pictures = await getPictures(URLSearchParams(window.location.search).get('folderId'));
+            renderPictures(pictures);
       };
     }
     input.click();
-  }
+}
