@@ -6,33 +6,28 @@ window.onload = async function() {
 
 async function getPictures(folderId) {
     try {
-        const response = await fetch(`https://localhost:7019/api/pictures?folderId=${folderId}`, {method: 'GET'});
+        const response = await fetch(`https://localhost:7019/api/pictures?folderId=${folderId}`, {
+            method: 'GET',
+            headers: {
+                'Protocol': 'HTTP/1.1'
+            }});
         let data = await response.json();
-        console.log(data);
+        console.log(response);
         return data;
     } catch (error) {
-        console.error(error);
+        console.log(error);
     }
 }
 
-// function renderPictures(pictures) {
-//     const pictureContainer = document.querySelector('.picture-section');
-
-//     let html = '';
-//     for (const picture of pictures) {
-//       html += `<div class="picture" data-picture-id="${picture.id}">${picture.name}</div>`;
-//     }
-//     pictureContainer.innerHTML = html;
-// }
 async function renderPictures(pictures) {
     const pictureContainer = document.querySelector('.imgGrid');
     let html = '';
     //data-picture-id="${picture.id}";
     for (const picture of pictures) {
-        console.log(pictures);
-        console
+        console.log(picture);
+
       html += `<div>
-                <img data-picture-id="${picture.id}" class="picture hover:scale-105 transition-all w-full max-w-sm rounded overflow-hidden shadow-lg m-4 cursor-pointer" src="data:image/jpeg;base64, ${picture.data}" alt="${picture.name}">
+                <img data-picture-id="${picture.id}" class="picture hover:scale-105 transition-all w-full max-w-sm rounded overflow-hidden shadow-lg m-4 cursor-pointer" src="data:image/jpeg;base64, ${picture.binaryData}" alt="${picture.name}">
                 </div>`;
 
 };
@@ -49,7 +44,7 @@ const modal = document.querySelector('#imageModal');
 const closeButton = document.querySelector('.modal-close');
 const modalContainer = document.querySelector('.modal-container');
     for(const pictureElement of images){
-        console.log(pictureElement)
+
         pictureElement.addEventListener('click', function() {
             modalContainer.innerHTML = `<div class="modal-content py-4 text-left px-6">
                                         <img data-picture-id="${pictureElement.getAttribute('data-picture-id')}" src="${pictureElement.src}" alt="${pictureElement.name}">     

@@ -30,7 +30,7 @@ namespace ApiToDatabase.Models
         public string Name { get; set; }
 
         [BsonElement("data")]
-        public BsonBinaryData BinaryData { get; set; }
+        public byte[] BinaryData { get; set; }
     }
 }
 

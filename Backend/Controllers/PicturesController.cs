@@ -21,7 +21,15 @@ namespace ApiToDatabase.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Picture>>> GetPictures(string folderId)
         {
+            try
+            {
+
             return Ok(await _userService.GetPictures(folderId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpDelete]
         public async Task<IActionResult> DeletePictures(string pictureId) 
