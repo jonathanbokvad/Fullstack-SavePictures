@@ -20,7 +20,7 @@ namespace ApiToDatabase.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Picture>>> GetPictures(string folderId)
+        public async Task<ActionResult<List<Picture>>> GetPicturesFromFolder(string folderId)
         {
             try
             {

@@ -14,7 +14,6 @@ async function getFolders() {
     }
 }
 
-
 async function renderFolders() {
   if(window.location.pathname === "/Client/src/pages/foldersview.html"){
     const folders = await getFolders();
@@ -40,18 +39,9 @@ async function renderFolders() {
         </a>
         </td>
     </tr>`;
-    //${folder.id.creationTime.substring(0,10)}
   }
-  folderContainer.innerHTML = tbody;
+    folderContainer.innerHTML = tbody;
   }
-
-    // html += `<div class="bg-gray-200 rounded-lg p-4 flex items-center justify-between hover:bg-gray-300 cursor-pointer" data-folder-id="${folder.id}">
-      //            <div class="text-lg">${folder.name}</div>
-      //            <div class="daisy-icon daisy-icon-folder"></div>
-      //         </div>`;
-
-  //tbody += `<div class="bg-gray-200 rounded-lg p-4 flex items-center justify-between hover:bg-gray-300 cursor-pointer" data-folder-id="${folder.id}"> <div class="text-lg">${folder.name}</div> <div class="daisy-icon daisy-icon-folder"></div> </div>`
-
     // Add event listeners to the folder elements
     const folderElements = document.querySelectorAll('.folder');
     for (const folderElement of folderElements) {

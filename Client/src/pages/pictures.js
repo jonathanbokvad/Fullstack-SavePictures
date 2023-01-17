@@ -6,8 +6,8 @@ window.onload = async function() {
 
 async function getPictures(folderId) {
     try {
-        const response = await fetch(`https://localhost:7019/api/pictures?folderId=${folderId}`, {
-            method: 'GET'});
+        const response = await fetch(`https://localhost:7019/api/pictures?folderId=${folderId}`, 
+        {method: 'GET'});
         let data = await response.json();
         console.log(response);
         return data;
