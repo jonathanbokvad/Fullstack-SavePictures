@@ -185,30 +185,40 @@ public class MongoDbContext : IMongoDbServices
     //List<string> picturesId = new();
     //folder.Pictures.Select(s => ObjectId.Parse(s.ToString()));
 
-    //public async Task<Task> CreatePicture(byte[] binaryData, string name)
-    //{
-    //    //var image = File.ReadAllBytes("image.jpg");
-    //    var imageData = new Picture
-    //    {
-    //        Id = ObjectId.GenerateNewId().ToString(),
-    //        Name = name,
-    //        BinaryData = binaryData
-    //    };
+    public async Task<Folder> CreatePicture(PictureRequest pictureRequest)
+    {
+        byte[] imageBytes = Convert.FromBase64String(pictureRequest.Data);
+        var picture = new Picture
+        {
+            Id = ObjectId.GenerateNewId().ToString(),
+            Name = pictureRequest.Name,
+            BinaryData = imageBytes
+        };
 
-    //    var created = _userCollection.Database.GetCollection<Picture>("pictures").InsertOneAsync(imageData);
-    //    return created;
-    //}
+        await _userCollection.Database.GetCollection<Picture>("pictures").InsertOneAsync(picture);
+
+
+            //Folder folderInsert = new() { Id = pictureRequest.FolderId, Pictures = new List<ObjectId> { ObjectId.Parse(picture.Id) } };
+
+            var folder = await _userCollection.Database.GetCollection<Folder>("folders").FindOneAndUpdateAsync(
+                Builders<Folder>.Filter.Where(fold => fold.Id == pictureRequest.FolderId),
+                Builders<Folder>.Update.AddToSet("pictures", ObjectId.Parse(picture.Id))
+                );
+            var f = folder;
+
+        return folder;
+    }
     public Picture CreatePictureTest(byte[] binaryData, string name)
     {
         //var image = File.ReadAllBytes("image.jpg");
-        var imageData = new Picture
+        var picture = new Picture
         {
             Id = ObjectId.GenerateNewId().ToString(),
             Name = name,
             BinaryData = binaryData
         };
 
-        return imageData;
+        return picture;
     }
     #endregion
 }

@@ -22,7 +22,7 @@ public interface IMongoDbServices
 
     Task<List<Picture>> GetPictures(string folderId);
     Task<DeleteResult> DeletePicture(string pictureId);
-   // Task<Task> CreatePicture(byte[] binaryData, string name);
+    Task<Folder> CreatePicture(PictureRequest pictureRequest);
     Picture CreatePictureTest(byte[] binaryData, string name);
 }
 

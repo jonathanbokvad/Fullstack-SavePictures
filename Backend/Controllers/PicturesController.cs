@@ -50,10 +50,9 @@ namespace ApiToDatabase.Controllers
         public async Task<IActionResult> CreatePicture([FromBody] PictureRequest pictureRequest)
         {
             try
-            {
-                byte[] imageBytes = Convert.FromBase64String(pictureRequest.Data);
-                var result = _userService.CreatePictureTest(imageBytes, "");
-                return Created("https://localhost:7019/api/pictures", result);
+            {   
+                var result = _userService.CreatePicture(pictureRequest);
+                return Created("/api/pictures", result);
             }
             catch (Exception ex)
             {
@@ -66,4 +65,6 @@ namespace ApiToDatabase.Controllers
 public class PictureRequest
 {
     public string Data { get; set; }
+    public string Name { get; set; }
+    public string FolderId { get; set; }
 }

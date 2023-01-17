@@ -6,8 +6,7 @@ window.onload = async function() {
 
 async function getPictures(folderId) {
     try {
-        const response = await fetch(`https://localhost:7019/api/pictures?folderId=${folderId}`, 
-        {method: 'GET'});
+        const response = await fetch(`https://localhost:7019/api/pictures?folderId=${folderId}`, {method: 'GET'});
         let data = await response.json();
         console.log(response);
         return data;
@@ -39,7 +38,7 @@ const modal = document.querySelector('#imageModal');
 const closeButton = document.querySelector('.modal-close');
 const modalContainer = document.querySelector('.modal-container');
     for(const pictureElement of images){
-
+console.log(pictureElement);
         pictureElement.addEventListener('click', function() {
             modalContainer.innerHTML = `<div class="modal-content py-4 text-left px-6">
                                         <img data-picture-id="${pictureElement.getAttribute('data-picture-id')}" src="${pictureElement.src}" alt="${pictureElement.name}">     
@@ -91,25 +90,53 @@ function DeletePicture(){
 //     input.click();
 //   }
   
+// function AddPicture() {
+//     let input = document.createElement('input');
+//     input.type = 'file';
+//     input.onchange = function () {
+//       const file = input.files[0];
+//       const reader = new FileReader();
+//       reader.readAsArrayBuffer(file);
+//       console.log(reader);
+//       console.log(reader.result);
+//       reader.onloadend = async function() {
+//           const byteArray = new Uint8Array(reader.result);
+//           const base64 = btoa(new Uint8Array(byteArray).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+//           const data = `data:${file.type};base64,${base64}`;
+//           console.log(data);
+//           await fetch("https://localhost:7019/api/pictures/create", {
+//             method: "POST",
+//             headers: { "Content-Type": "application/json" },
+//             body: JSON.stringify({ image: data, contentType: file.type })
+//           })
+//             .then(response => console.log(response.json()))
+//             .then(data => console.log(data))
+//             .catch(error => console.log(error));
+//       };
+//     }
+//     input.click();
+//   }
+
 // eslint-disable-next-line no-unused-vars
 function AddPicture() {
     let input = document.createElement('input');
     input.type = 'file';
+    const folderId = new URLSearchParams(window.location.search).get('folderId');
     input.onchange = function () {
       const file = input.files[0];
       const reader = new FileReader();
       reader.readAsArrayBuffer(file);
-      console.log(reader);
+      console.log(file);
       console.log(reader.result);
       reader.onloadend = async function() {
           const byteArray = new Uint8Array(reader.result);
           const base64 = btoa(new Uint8Array(byteArray).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-          const data = `data:${file.type};base64,${base64}`;
-          console.log(data);
+          //const data = `data:${file.type};base64,${base64}`;
+
           await fetch("https://localhost:7019/api/pictures/create", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ image: data, contentType: file.type })
+            body: JSON.stringify({ data: base64, name: file.name, folderId: folderId})
           })
             .then(response => console.log(response.json()))
             .then(data => console.log(data))
