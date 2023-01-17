@@ -11,7 +11,20 @@
     <title>Photos</title>
 </head>
 <body class="font-roboto"> 
-    
+	
+  <nav class="flex items-center justify-between flex-wrap p-6 dark:bg-gray-900">
+    <div class="flex items-center flex-shrink-0 text-white mr-6">
+      <img class="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" src="https://freesvg.org/img/ftfilesave.png" alt="">
+      <span class="font-semibold text-xl tracking-tight">Save pictures</span>
+    </div>
+    <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+      <div class="text-sm lg:flex-grow">
+        <a href="/Client/src/pages/listview.html" class="block mt-4 inline-block lg:mt-0 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-blue-700 font-bold hover:text-white mr-4">
+          Home</a>
+          <button onclick="AddPicture()" class="add-btn inline-block text-sm px-4 py-2 leading-none border rounded font-bold text-white border-white hover:border-transparent hover:text-blue-700 hover:bg-white mt-4 lg:mt-0">Add picture</button>
+    </div>
+  </nav>
+
   <div class="imgGrid flex flex-wrap">
     <!-- <div>
       <img class="picture hover:scale-105 transition-all w-full max-w-sm rounded overflow-hidden shadow-lg m-4 cursor-pointer" src="data:image/jpeg;base64, ${picture.data}" alt="${picture.name}">
@@ -19,7 +32,7 @@
 </div>
 
 <div class="modal fixed top-0 left-0 w-full h-full flex items-center justify-center modal-close" id="imageModal">
-  <div class="modal-overlay  w-full h-full opacity-50"></div>
+  <div class="modal-overlay w-full h-full opacity-50"></div>
   <div class="modal-container bg-white md:max-w-2xl mx-auto rounded-lg overflow-y-auto">
     
     
@@ -31,6 +44,6 @@
   </div>
 </div>
 <script src="https://cdn.tailwindcss.com"></script>
-<script  src="/Client/src/pages/photo.js"></script>
+<script  src="/Client/src/pages/pictures.js"></script>
 </body>
 </html>

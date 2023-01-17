@@ -2,6 +2,7 @@
 using ApiToDatabase.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ApiToDatabase.Controllers
 {
@@ -23,8 +24,7 @@ namespace ApiToDatabase.Controllers
         {
             try
             {
-
-            return Ok(await _userService.GetPictures(folderId));
+                return Ok(await _userService.GetPictures(folderId));
             }
             catch (Exception ex)
             {
@@ -32,7 +32,7 @@ namespace ApiToDatabase.Controllers
             }
         }
         [HttpDelete]
-        public async Task<IActionResult> DeletePictures(string pictureId) 
+        public async Task<IActionResult> DeletePicture(string pictureId) 
         {
             try
             {
@@ -44,5 +44,27 @@ namespace ApiToDatabase.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("create")]
+        public async Task<IActionResult> CreatePicture([FromBody] ImageModel image)
+        {
+            try
+            {
+                byte[] imageBytes = Convert.FromBase64String(image.Image);
+                var result = _userService.CreatePictureTest(imageBytes, "");
+                return Created("https://localhost:7019/api/pictures", result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
+}
+
+public class ImageModel
+{
+    public string Image { get; set; }
+    public string ContentType { get; set; }
 }

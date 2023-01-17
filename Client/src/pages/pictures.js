@@ -21,8 +21,6 @@ async function renderPictures(pictures) {
     let html = '';
     //data-picture-id="${picture.id}";
     for (const picture of pictures) {
-        console.log(picture);
-
       html += `<div>
                 <img data-picture-id="${picture.id}" class="picture hover:scale-105 transition-all w-full max-w-sm rounded overflow-hidden shadow-lg m-4 cursor-pointer" src="data:image/jpeg;base64, ${picture.binaryData}" alt="${picture.name}">
                 </div>`;
@@ -49,7 +47,7 @@ const modalContainer = document.querySelector('.modal-container');
                                         </div>`;
         modal.classList.remove('modal-close');
         modal.classList.add('modal-open');
-        DeleteButton();
+        DeletePicture();
         });
     }
     closeButton.addEventListener('click', function(){
@@ -58,7 +56,7 @@ const modalContainer = document.querySelector('.modal-container');
     });
 }
 
-function DeleteButton(){
+function DeletePicture(){
     const button = document.querySelector('.delete-btn');
     button.addEventListener('click', function (){
         const pictureId = this.parentNode.querySelector('img').getAttribute('data-picture-id');
@@ -69,3 +67,51 @@ function DeleteButton(){
         .finally(getPictures())
     })
 }
+
+// async function AddPicture() {
+//     let input = document.createElement('input');
+//     input.type = 'file';
+//     input.onchange = async _ => {
+//       let file = input.files[0];
+//       let reader = new FileReader();
+//       reader.readAsArrayBuffer(file);
+//       reader.onloadend = async function() {
+//         let byteArray = new Uint8Array(reader.result);
+//         console.log(byteArray)
+//         await fetch("https://localhost:7019/api/pictures/create", {
+//           method: "POST",
+//           headers: { "Content-Type": "application/json" },
+//           body: JSON.stringify(byteArray)
+//         })
+//           .then(response => console.log(response.json()))
+//           then(data => console.log(data))
+//           .catch(error => console.log(error));
+//       };
+//     };
+//     input.click();
+//   }
+  
+function AddPicture() {
+    let input = document.createElement('input');
+    input.type = 'file';
+    input.onchange = function () {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(file);
+      reader.onloadend = async function() {
+          const byteArray = new Uint8Array(reader.result);
+          const base64 = btoa(new Uint8Array(byteArray).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+          const data = `data:${file.type};base64,${base64}`;
+          console.log(base64);
+          await fetch("https://localhost:7019/api/pictures/create", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ image: base64, contentType: file.type })
+          })
+            .then(response => console.log(response.json()))
+            then(data => console.log(data))
+            .catch(error => console.log(error));
+      };
+    }
+    input.click();
+  }

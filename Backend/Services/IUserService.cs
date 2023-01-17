@@ -22,5 +22,7 @@ public interface IMongoDbServices
 
     Task<List<Picture>> GetPictures(string folderId);
     Task<DeleteResult> DeletePicture(string pictureId);
+   // Task<Task> CreatePicture(byte[] binaryData, string name);
+    Picture CreatePictureTest(byte[] binaryData, string name);
 }
 

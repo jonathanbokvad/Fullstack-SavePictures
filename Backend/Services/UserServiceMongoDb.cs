@@ -185,18 +185,30 @@ public class MongoDbContext : IMongoDbServices
     //List<string> picturesId = new();
     //folder.Pictures.Select(s => ObjectId.Parse(s.ToString()));
 
-    public async Task<Task> CreatePicture()
+    //public async Task<Task> CreatePicture(byte[] binaryData, string name)
+    //{
+    //    //var image = File.ReadAllBytes("image.jpg");
+    //    var imageData = new Picture
+    //    {
+    //        Id = ObjectId.GenerateNewId().ToString(),
+    //        Name = name,
+    //        BinaryData = binaryData
+    //    };
+
+    //    var created = _userCollection.Database.GetCollection<Picture>("pictures").InsertOneAsync(imageData);
+    //    return created;
+    //}
+    public Picture CreatePictureTest(byte[] binaryData, string name)
     {
-        var image = File.ReadAllBytes("image.jpg");
+        //var image = File.ReadAllBytes("image.jpg");
         var imageData = new Picture
         {
             Id = ObjectId.GenerateNewId().ToString(),
-            Name = "image.jpg",
-            BinaryData = image
+            Name = name,
+            BinaryData = binaryData
         };
 
-        var created = _userCollection.Database.GetCollection<Picture>("pictures").InsertOneAsync(imageData);
-        return created;
+        return imageData;
     }
     #endregion
 }
