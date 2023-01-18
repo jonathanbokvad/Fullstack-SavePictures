@@ -100,12 +100,12 @@ async function updateFolderName(){
 }
 
 async function deleteFolder(element){
-  currentFolderId = element.parentElement.parentElement.getAttribute("data-folder-id");
+  const folderId = element.parentElement.parentElement.getAttribute("data-folder-id");
   console.log("This is the Delete Folder function!")
   await fetch("https://localhost:7019/api/folder", {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(currentFolderId)
+    body: JSON.stringify(folderId)
   })
   .then(response => response.json())
   .then(data => console.log(data))
