@@ -34,7 +34,7 @@ async function renderFolders() {
         <button onclick="showModal(this, 'modal-update')" class="text-gray-400 hover:text-gray-100 mx-2 edit">
           <i class="material-icons-outlined text-base edit-icon">edit</i>
         </button>
-        <button onclick="deleteFolder()" class="text-gray-400 hover:text-gray-100  ml-2 delete">
+        <button onclick="deleteFolder(this)" class="text-gray-400 hover:text-gray-100  ml-2 delete">
           <i class="material-icons-round text-base delete-icon ">delete</i>
         </button>
         </td>
@@ -66,8 +66,9 @@ function showModal(element, modal) {
   }
 }
 
-function hideModal(modal){
+function hideModal(modal, folderName){
   document.getElementById(modal).classList.add("invisible");
+  document.getElementById(folderName).value = "";
 }
 
 async function addFolder(){
@@ -80,7 +81,7 @@ async function addFolder(){
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error(error));
-  document.getElementById("modal").classList.add("invisible");
+  hideModal('modal', 'folderNameCreate');
   await renderFolders();
 }
 
@@ -94,10 +95,21 @@ async function updateFolderName(){
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error(error));
-  document.getElementById("modal-update").classList.add("invisible");
+  hideModal('modal-update', 'folderNameUpdate');
   await renderFolders();
 }
 
-async function deleteFolder(){
+async function deleteFolder(element){
+  currentFolderId = element.parentElement.parentElement.getAttribute("data-folder-id");
   console.log("This is the Delete Folder function!")
+  await fetch("https://localhost:7019/api/folder", {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(currentFolderId)
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
+  hideModal('modal-update', 'folderNameUpdate');
+  await renderFolders();
 }

@@ -49,7 +49,20 @@ public class FoldersController : ControllerBase
     {
         try
         {
-            return Ok(await _userService.CreateFolder(folderRequest));
+            return Ok(await _userService.UpdateFolderName(folderRequest));
+
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpDelete]
+    public async Task<ActionResult<List<Folder>>> DeleteFolder([FromBody] string folderId)
+    {
+        try
+        {
+            return Ok(await _userService.DeleteFolder(folderId));
 
         }
         catch (Exception ex)

@@ -101,6 +101,13 @@ public class MongoDbContext : IMongoDbServices
             );
         return updateResult;
     }
+    public async Task<DeleteResult> DeleteFolder(string folderId)
+    {
+        var deletedResult = await _userCollection.Database.GetCollection<Folder>("folders").DeleteOneAsync(
+            Builders<Folder>.Filter.Where(x => x.Id == folderId)
+            );
+        return deletedResult;
+    }
 
     #endregion
 
