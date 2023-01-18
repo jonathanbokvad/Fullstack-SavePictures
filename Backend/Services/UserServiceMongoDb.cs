@@ -103,9 +103,17 @@ public class MongoDbContext : IMongoDbServices
     }
     public async Task<DeleteResult> DeleteFolder(string folderId)
     {
-        var deletedResult = await _userCollection.Database.GetCollection<Folder>("folders").DeleteOneAsync(
+        // EJ testad!!!
+        var folderCollection = _userCollection.Database.GetCollection<Folder>("folders");
+        
+        var folder = await folderCollection.Find(x => x.Id == folderId).FirstOrDefaultAsync();
+
+        var MaybePicturesDeleted = await _userCollection.Database.GetCollection<Picture>("pictures").DeleteManyAsync(Builders<Picture>.Filter.In("_id", folder.Pictures.Select(x => ObjectId.Parse(x.ToString()))));
+
+        var deletedResult = await folderCollection.DeleteOneAsync(
             Builders<Folder>.Filter.Where(x => x.Id == folderId)
             );
+
         return deletedResult;
     }
 
