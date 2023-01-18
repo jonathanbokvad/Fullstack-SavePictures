@@ -12,3 +12,6 @@ and how images are related (in folder with one tags?)
 8.
 9.
 10. Look if the repository pattern is a viable choice
+
+
+Picture should scale depending on the screen size

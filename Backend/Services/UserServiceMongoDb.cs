@@ -93,6 +93,15 @@ public class MongoDbContext : IMongoDbServices
         return new OkResult();
     }
 
+    public async Task<UpdateResult> UpdateFolderName(FolderRequest folderRequest)
+    {
+       var updateResult = await _userCollection.Database.GetCollection<Folder>("folders").UpdateOneAsync(
+            Builders<Folder>.Filter.Where(x => x.Id == folderRequest.FolderId),
+            Builders<Folder>.Update.Set("name", folderRequest.Name)
+            );
+        return updateResult;
+    }
+
     #endregion
 
     #region PicturesAPI
@@ -190,5 +199,7 @@ public class MongoDbContext : IMongoDbServices
 
         return picture;
     }
+
+
     #endregion
 }

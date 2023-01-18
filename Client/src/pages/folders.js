@@ -31,17 +31,21 @@ async function renderFolders() {
       ${folder}
       </td>
       <td class="p-3">
-        <a href="#" class="text-gray-400 hover:text-gray-100  mx-2">
-          <i class="material-icons-outlined text-base">edit</i>
-        </a>
-        <a href="#" class="text-gray-400 hover:text-gray-100  ml-2">
-          <i class="material-icons-round text-base">delete</i>
-        </a>
+        <button onclick="showModal(this, 'modal-update')" class="text-gray-400 hover:text-gray-100 mx-2 edit">
+          <i class="material-icons-outlined text-base edit-icon">edit</i>
+        </button>
+        <button onclick="deleteFolder()" class="text-gray-400 hover:text-gray-100  ml-2 delete">
+          <i class="material-icons-round text-base delete-icon ">delete</i>
+        </button>
         </td>
     </tr>`;
+  } folderContainer.innerHTML = tbody;
   }
-    folderContainer.innerHTML = tbody;
-  }
+  document.querySelectorAll('.edit, .delete').forEach(elem => {
+    elem.addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
+});
     // Add event listeners to the folder elements
     const folderElements = document.querySelectorAll('.folder');
     for (const folderElement of folderElements) {
@@ -53,25 +57,47 @@ async function renderFolders() {
     }
 }
 
-function showModal() {
-  document.getElementById("modal").classList.remove("invisible");
-}
-function hideModal(){
-  document.getElementById("modal").classList.add("invisible");
+let currentFolderId = "";
+function showModal(element, modal) {
+  document.getElementById(modal).classList.remove("invisible");
+
+  if(modal == 'modal-update'){
+    currentFolderId = element.parentElement.parentElement.getAttribute("data-folder-id");
+  }
 }
 
-
+function hideModal(modal){
+  document.getElementById(modal).classList.add("invisible");
+}
 
 async function addFolder(){
-  var inputValue = document.getElementById("folderName").value;
+  var inputValue = document.getElementById("folderNameCreate").value;
   await fetch("https://localhost:7019/api/folder", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name: inputValue})
+    body: JSON.stringify({folderId: currentFolderId, name: inputValue})
   })
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error(error));
   document.getElementById("modal").classList.add("invisible");
   await renderFolders();
+}
+
+async function updateFolderName(){
+  var inputValue = document.getElementById("folderNameUpdate").value;
+  await fetch("https://localhost:7019/api/folder", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({folderId: currentFolderId, name: inputValue})
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
+  document.getElementById("modal-update").classList.add("invisible");
+  await renderFolders();
+}
+
+async function deleteFolder(){
+  console.log("This is the Delete Folder function!")
 }

@@ -35,7 +35,21 @@ public class FoldersController : ControllerBase
     {
         try
         {
-        return Ok(await _userService.CreateFolder(folderRequest));
+            return Ok(await _userService.CreateFolder(folderRequest));
+
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPatch]
+    public async Task<ActionResult<List<Folder>>> UpdateFolderName(FolderRequest folderRequest)
+    {
+        try
+        {
+            return Ok(await _userService.CreateFolder(folderRequest));
 
         }
         catch (Exception ex)
@@ -49,5 +63,6 @@ public class FoldersController : ControllerBase
 
 public class FolderRequest
 {
+    public string FolderId { get; set; }
     public string Name { get; set; }
 }

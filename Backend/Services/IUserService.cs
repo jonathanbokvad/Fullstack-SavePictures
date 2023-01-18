@@ -20,6 +20,7 @@ public interface IMongoDbServices
     
     Task<List<Folder>> GetFolders();
     Task<OkResult> CreateFolder(FolderRequest folderRequest);
+    Task<UpdateResult> UpdateFolderName(FolderRequest folderRequest);
 
     Task<List<Picture>> GetPictures(string folderId);
     Task<DeleteResult> DeletePicture(string pictureId);
