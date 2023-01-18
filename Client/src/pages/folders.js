@@ -52,3 +52,26 @@ async function renderFolders() {
       });
     }
 }
+
+function showModal() {
+  document.getElementById("modal").classList.remove("invisible");
+}
+function hideModal(){
+  document.getElementById("modal").classList.add("invisible");
+}
+
+
+
+async function addFolder(){
+  var inputValue = document.getElementById("folderName").value;
+  await fetch("https://localhost:7019/api/folder", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: inputValue})
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
+  document.getElementById("modal").classList.add("invisible");
+  await renderFolders();
+}

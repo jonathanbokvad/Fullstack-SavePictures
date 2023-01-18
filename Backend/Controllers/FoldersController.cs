@@ -29,4 +29,25 @@ public class FoldersController : ControllerBase
     {
         return Ok(await _userService.GetFolders());
     }
+
+    [HttpPost]
+    public async Task<ActionResult<List<Folder>>> CreateFolders(FolderRequest folderRequest)
+    {
+        try
+        {
+        return Ok(await _userService.CreateFolder(folderRequest));
+
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+}
+
+
+public class FolderRequest
+{
+    public string Name { get; set; }
 }

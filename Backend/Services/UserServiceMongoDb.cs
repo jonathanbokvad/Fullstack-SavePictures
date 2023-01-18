@@ -1,3 +1,4 @@
+using ApiToDatabase.Controllers;
 using ApiToDatabase.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -51,7 +52,6 @@ public class MongoDbContext : IMongoDbServices
     #region Folders Api
     public async Task<List<Folder>> GetFolders()
     {
-
         try
         {
 
@@ -79,97 +79,67 @@ public class MongoDbContext : IMongoDbServices
         }
 
     }
-    //foreach (var doc in folderslist)
-    //{
-    //    var pictureArray = doc.Pictures;
-    //}
+ 
+    public async Task<OkResult> CreateFolder(FolderRequest folderRequest)
+    {
+        Folder folder = new()
+        {
+            Id = ObjectId.GenerateNewId().ToString(),
+            Name = folderRequest.Name,
+            Pictures = new List<ObjectId> { }
+        };
 
-
-    //var filter = Builders<Folder>.Filter.AnyEq("pictures", true);
-
-    //var filterList= await _userCollection.Database.GetCollection<Folder>("folders").Find(filter).ToListAsync();
-
-
-    //_userCollection.Database.GetCollection<Pictures>("pictures");
-    //var folders = await folderslist;
-
-    //var listfolders = folderss.Find(_ => true).ToListAsync();
-    //return listfolders;
-
-    //Task<ActionResult<List<Folder>>>
-    //    try
-    //    {
-
-    //    var _folders = _userCollection.Database.GetCollection<Folder>("folders");
-    //        //var _folders = database.GetCollection<Folder>("folders");
-    //        var pipeline = new[] {
-    //  new BsonDocument("$lookup", new BsonDocument
-    //  {
-    //    { "from", "pictures" },
-    //    { "localField", "pictures" },
-    //    { "foreignField", "_id" },
-    //    { "as", "pictures" }
-    //  })
-    //};
-
-    //        var result = await _folders.AggregateAsync<Folder>(pipeline);
-    //        return result.ToList();
-    //    }
-    //    catch(Exception ex)
-    //    {
-    //        Console.WriteLine(ex.ToString());
-    //        throw;
-    //    }
-    //    return null;
-
+        await _userCollection.Database.GetCollection<Folder>("folders").InsertOneAsync(folder);
+        return new OkResult();
+    }
 
     #endregion
 
     #region PicturesAPI
     public async Task<List<Picture>> GetPictures(string folderId)
     {
-        //Get navigated folder
-        var foldersCollection = _userCollection.Database.GetCollection<Folder>("folders");
-        Folder folder = await foldersCollection.Find(x => x.Id == folderId/*== ObjectId.Parse(folderId)*/).FirstOrDefaultAsync();
+        ////Get navigated folder
+        //var foldersCollection = _userCollection.Database.GetCollection<Folder>("folders");
+        //Folder folder = await foldersCollection.Find(x => x.Id == folderId/*== ObjectId.Parse(folderId)*/).FirstOrDefaultAsync();
 
-        //Get specific collection and query for all pictures that where inside our navigated folder
-        var picturesCollection = _userCollection.Database.GetCollection<Picture>("pictures");
-        var filter = Builders<Picture>.Filter.In("_id", folder.Pictures.Select(x => ObjectId.Parse(x.ToString())));
-        var pictures = await picturesCollection.Find(filter).ToListAsync();
-        return pictures;
+        ////Get specific collection and query for all pictures that where inside our navigated folder
+        //var picturesCollection = _userCollection.Database.GetCollection<Picture>("pictures");
+        //var filter = Builders<Picture>.Filter.In("_id", folder.Pictures.Select(x => ObjectId.Parse(x.ToString())));
+        //var pictures = await picturesCollection.Find(filter).ToListAsync();
+        //return pictures;
         try
         {
 
-        //    byte[] imageBytes;
-        //    using (var ms = new MemoryStream())
-        //    {
-        //        var image = File.ReadAllBytes(@"C:\Users\ac.se.jonathanb\OneDrive - Origo hf\Pictures\Picture1.png");
-        //        ms.Write(image, 0, image.Length);
-        //        imageBytes = ms.ToArray();
-        //    }
-        //    byte[] imageBytes2;
-        //    using (var ms = new MemoryStream())
-        //    {
-        //        var image = File.ReadAllBytes(@"C:\Users\ac.se.jonathanb\OneDrive - Origo hf\Pictures\DSCF0332.jpg");
-        //        ms.Write(image, 0, image.Length);
-        //        imageBytes2 = ms.ToArray();
-        //    }
+            byte[] imageBytes;
+            using (var ms = new MemoryStream())
+            {
+                var image = File.ReadAllBytes(@"C:\Users\ac.se.jonathanb\OneDrive - Origo hf\Pictures\Picture1.png");
+                ms.Write(image, 0, image.Length);
+                imageBytes = ms.ToArray();
+            }
+            byte[] imageBytes2;
+            using (var ms = new MemoryStream())
+            {
+                var image = File.ReadAllBytes(@"C:\Users\ac.se.jonathanb\OneDrive - Origo hf\Pictures\DSCF0332.jpg");
+                ms.Write(image, 0, image.Length);
+                imageBytes2 = ms.ToArray();
+            }
 
-        //    return new List<Picture>
-        //{
-        //    new Picture
-        //    {
-        //        Id = "63bca20c1107a8fb0d435e69",
-        //        Name= "picture 11",
-        //        BinaryData = imageBytes
-        //    },
-        //    new Picture
-        //    {
-        //         Id = "63bca2111107a8fb0d435e6a",
-        //        Name= "picture 32",
-        //        BinaryData = imageBytes2
-        //    }
-        //};
+            return new List<Picture>
+        {
+            new Picture
+            {
+                Id = "63bca20c1107a8fb0d435e69",
+                Name= "picture 11",
+                BinaryData = imageBytes
+            },
+            new Picture
+            {
+                 Id = "63bca2111107a8fb0d435e6a",
+                Name= "picture 32",
+                BinaryData = imageBytes2
+            }
+        };
         }
         catch (Exception ex)
         {

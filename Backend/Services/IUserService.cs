@@ -1,3 +1,4 @@
+using ApiToDatabase.Controllers;
 using ApiToDatabase.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -18,7 +19,7 @@ public interface IMongoDbServices
 
     
     Task<List<Folder>> GetFolders();
-
+    Task<OkResult> CreateFolder(FolderRequest folderRequest);
 
     Task<List<Picture>> GetPictures(string folderId);
     Task<DeleteResult> DeletePicture(string pictureId);
