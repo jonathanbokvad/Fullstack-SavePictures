@@ -40,10 +40,10 @@ const modalContainer = document.querySelector('.modal-container');
     for(const pictureElement of images){
 console.log(pictureElement);
         pictureElement.addEventListener('click', function() {
-            modalContainer.innerHTML = `<div class="modal-content py-4 text-left px-6">
-                                        <img data-picture-id="${pictureElement.getAttribute('data-picture-id')}" src="${pictureElement.src}" alt="${pictureElement.name}">     
-                                        <button class="btn btn-blue mt-2 delete-btn">Delete</button>
-                                        </div>`;
+            modalContainer.innerHTML = `<div class="modal-content py-4 text-left px-6 max-w-screen max-h-screen">
+            <img class="" data-picture-id="${pictureElement.getAttribute('data-picture-id')}" src="${pictureElement.src}" alt="${pictureElement.name}">     
+            <button class="btn btn-blue mt-2 delete-btn">Delete</button>
+          </div>`;
         modal.classList.remove('modal-close');
         modal.classList.add('modal-open');
         DeletePicture();
