@@ -1,13 +1,7 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using ApiToDatabase.Models;
+using ApiToDatabase.Models.RequestModels;
 using ApiToDatabase.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Net.Http.Headers;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace ApiToDatabase.Controllers;
 
@@ -71,11 +65,4 @@ public class FoldersController : ControllerBase
         }
     }
 
-}
-
-
-public class FolderRequest
-{
-    public string FolderId { get; set; }
-    public string Name { get; set; }
 }

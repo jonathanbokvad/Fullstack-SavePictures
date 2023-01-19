@@ -1,5 +1,5 @@
-﻿using ApiToDatabase.Models.RequestModels;
-using ApiToDatabase.Models;
+﻿using ApiToDatabase.Models;
+using ApiToDatabase.Models.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 

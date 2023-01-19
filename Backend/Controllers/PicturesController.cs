@@ -1,9 +1,7 @@
 ﻿using ApiToDatabase.Models;
 using ApiToDatabase.Models.RequestModels;
 using ApiToDatabase.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ApiToDatabase.Controllers
 {
