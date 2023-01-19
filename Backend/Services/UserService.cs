@@ -6,9 +6,10 @@ using MongoDB.Driver;
 
 namespace ApiToDatabase.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IMongoCollection<User> _context;
+
         public async Task<List<User>> GetUsersAsync()
         => await _context.Find(_ => true).ToListAsync();
 
@@ -22,8 +23,8 @@ namespace ApiToDatabase.Services
 
             var UserInDatabase = await _context.Find(x => x.UserName == user.UserName).FirstOrDefaultAsync();
 
-
             //await _userCollection.CountDocumentsAsync(x => x.UserName == user.UserName && x.PasswordHash == user.PasswordHash) >= 1 ? true : false;
+            return true;
         }
         //public async Task<bool> ValidateUserAsync(User user)
         //{

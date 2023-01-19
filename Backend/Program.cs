@@ -12,7 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.Configure<UserDatabaseSettings>(
    builder.Configuration.GetSection("UserDatabase"));
-builder.Services.AddScoped<MongoDbContext>(); // Kolla upp detty!!!
+
+//builder.Services.AddScoped<MongoDbContext>(); // Kolla upp detty!!!
+
+
+
 builder.Services.AddScoped<IJwtManager, JwtManager>();
 
 

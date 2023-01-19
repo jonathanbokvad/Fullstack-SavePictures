@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiToDatabase.Services
 {
-    public class PictureService
+    public class PictureService : IPictureService
     {
         private readonly IMongoCollection<Picture> _context;
         public async Task<List<Picture>> GetPictures(string folderId)

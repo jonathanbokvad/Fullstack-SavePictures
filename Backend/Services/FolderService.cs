@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiToDatabase.Services
 {
-    public class FolderServices
+    public class FolderService: IFolderService
     {
         private readonly IMongoCollection<Folder> _context;
         public async Task<List<Folder>> GetFolders()

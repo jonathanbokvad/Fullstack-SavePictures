@@ -15,9 +15,9 @@ namespace ApiToDatabase.Controllers;
 [Route("api/user")]
 public class UserController : ControllerBase
 {
-    private readonly IMongoDbServices _userService;
+    private readonly IUserService _userService;
     private readonly IJwtManager _jwtManager;
-    public UserController(IMongoDbServices userService, IJwtManager jwtManager)
+    public UserController(IUserService userService, IJwtManager jwtManager)
     {
         _userService = userService;
         _jwtManager = jwtManager;

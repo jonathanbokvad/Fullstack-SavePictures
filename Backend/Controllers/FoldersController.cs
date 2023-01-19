@@ -2,7 +2,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using ApiToDatabase.Models;
-using ApiToDatabase.Models.RequestModels;
 using ApiToDatabase.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -16,19 +15,19 @@ namespace ApiToDatabase.Controllers;
 [ApiController]
 public class FoldersController : ControllerBase
 {
-    private readonly IMongoDbServices _userService;
+    private readonly IFolderService _folderService;
     //private readonly IMongoCollection<Folder> _folders;
 
-    public FoldersController(IMongoDbServices userService)
+    public FoldersController(IFolderService userService)
     {
         //  _folders = database.GetCollection<Folder>("folders");
-        _userService = userService;
+        _folderService = userService;
     }
 
     [HttpGet]
     public async Task<ActionResult<List<Folder>>> GetFolders()
     {
-        return Ok(await _userService.GetFolders());
+        return Ok(await _folderService.GetFolders());
     }
 
     [HttpPost]
@@ -36,7 +35,7 @@ public class FoldersController : ControllerBase
     {
         try
         {
-            return Ok(await _userService.CreateFolder(folderRequest));
+            return Ok(await _folderService.CreateFolder(folderRequest));
 
         }
         catch (Exception ex)
@@ -50,7 +49,7 @@ public class FoldersController : ControllerBase
     {
         try
         {
-            return Ok(await _userService.UpdateFolderName(folderRequest));
+            return Ok(await _folderService.UpdateFolderName(folderRequest));
 
         }
         catch (Exception ex)
@@ -63,7 +62,7 @@ public class FoldersController : ControllerBase
     {
         try
         {
-            return Ok(await _userService.DeleteFolder(folderId));
+            return Ok(await _folderService.DeleteFolder(folderId));
 
         }
         catch (Exception ex)
@@ -72,4 +71,11 @@ public class FoldersController : ControllerBase
         }
     }
 
+}
+
+
+public class FolderRequest
+{
+    public string FolderId { get; set; }
+    public string Name { get; set; }
 }
