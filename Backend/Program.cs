@@ -2,6 +2,7 @@ using ApiToDatabase.Data;
 using ApiToDatabase.Models;
 using ApiToDatabase.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
@@ -15,7 +16,9 @@ builder.Services.Configure<UserDatabaseSettings>(
 
 //builder.Services.AddScoped<MongoDbContext>(); // Kolla upp detty!!!
 
-
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IFolderService, FolderService>();
+builder.Services.AddScoped<IPictureService, PictureService>();
 
 builder.Services.AddScoped<IJwtManager, JwtManager>();
 

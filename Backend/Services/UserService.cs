@@ -9,6 +9,12 @@ namespace ApiToDatabase.Services
     public class UserService : IUserService
     {
         private readonly IMongoCollection<User> _context;
+        private readonly IPasswordHasher<UserRequest> _passwordHasher;
+        public UserService(IMongoCollection<User> context, IPasswordHasher<UserRequest> passwordHasher)
+        {
+            _context = context;
+            _passwordHasher = passwordHasher;
+        }
 
         public async Task<List<User>> GetUsersAsync()
         => await _context.Find(_ => true).ToListAsync();
@@ -17,14 +23,15 @@ namespace ApiToDatabase.Services
         => await _context.Find(x => x.Id == id).FirstOrDefaultAsync();
         public async Task<User?> GetUserByNameAsync(string username)
         => await _context.Find(x => x.UserName == username).FirstOrDefaultAsync();
-        public async Task<bool> ValidateUserAsync(UserRequest user)
+        public async Task<bool> ValidateUserAsync(UserRequest userRequest)
         {
-            IPasswordHasher<User> passwordHasher = new PasswordHasher<User>();
-
-            var UserInDatabase = await _context.Find(x => x.UserName == user.UserName).FirstOrDefaultAsync();
+            //EJ testadd
+            var res = await _context
+                .CountDocumentsAsync(x => x.UserName == userRequest.UserName && 
+            _passwordHasher.VerifyHashedPassword(userRequest, x.Password, userRequest.Password) == PasswordVerificationResult.Success) > 0 ? true : false;
 
             //await _userCollection.CountDocumentsAsync(x => x.UserName == user.UserName && x.PasswordHash == user.PasswordHash) >= 1 ? true : false;
-            return true;
+            return res;
         }
         //public async Task<bool> ValidateUserAsync(User user)
         //{

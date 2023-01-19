@@ -1,6 +1,7 @@
 using ApiToDatabase.Models;
 using ApiToDatabase.Models.RequestModels;
 using ApiToDatabase.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -8,7 +9,7 @@ namespace ApiToDatabase.Controllers;
 
 [ApiController]
 [Route("api/user")]
-public class UserController : ControllerBase
+public class UserController : ControllerBase 
 {
     private readonly IUserService _userService;
     private readonly IJwtManager _jwtManager;
