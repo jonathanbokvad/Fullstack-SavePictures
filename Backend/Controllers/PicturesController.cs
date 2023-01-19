@@ -1,4 +1,5 @@
 ﻿using ApiToDatabase.Models;
+using ApiToDatabase.Models.RequestModels;
 using ApiToDatabase.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -60,11 +61,4 @@ namespace ApiToDatabase.Controllers
             }
         }
     }
-}
-
-public class PictureRequest
-{
-    public string Data { get; set; }
-    public string Name { get; set; }
-    public string FolderId { get; set; }
 }

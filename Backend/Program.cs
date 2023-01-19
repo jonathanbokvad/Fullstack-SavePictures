@@ -4,6 +4,7 @@ using ApiToDatabase.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 using System.Security.Claims;
 using System.Text;
 
@@ -11,11 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.Configure<UserDatabaseSettings>(
    builder.Configuration.GetSection("UserDatabase"));
-builder.Services.AddScoped<IMongoDbServices, MongoDbContext>();
+builder.Services.AddScoped<MongoDbContext>(); // Kolla upp detty!!!
 builder.Services.AddScoped<IJwtManager, JwtManager>();
 
-// builder.Services.AddEntityFrameworkNpgsql().AddDbContext<UserDbContext>(opt =>
-//         opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnection")));
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(

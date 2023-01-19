@@ -1,7 +1,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using ApiToDatabase.Models;
+using ApiToDatabase.Models.RequestModels;
 using ApiToDatabase.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -35,12 +37,13 @@ public class UserController : ControllerBase
         return Ok(user);
     }
     [HttpPost]
-    public async Task<IActionResult> LogIn(User user)
+    public async Task<IActionResult> LogIn(UserRequest userRequest)
     {
         try
         {
+            
             //_jwtManager.ValidateToken(HttpContext.Request.Headers.Authorization.ToString().Split("Bearer ")[1]);
-            if (_userService.ValidateUserAsync(user).Result)
+            if (_userService.ValidateUserAsync(userRequest).Result)
             {
                 return Ok(_jwtManager.CreateToken());
             }

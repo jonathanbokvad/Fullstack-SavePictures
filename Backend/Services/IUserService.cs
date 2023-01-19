@@ -1,14 +1,14 @@
-using ApiToDatabase.Controllers;
 using ApiToDatabase.Models;
+using ApiToDatabase.Models.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ApiToDatabase.Services;
 
-public interface IMongoDbServices
+public interface IUserService
 {
-    Task<bool> ValidateUserAsync(User user);
+    Task<bool> ValidateUserAsync(UserRequest userRequest);
     Task<List<User>> GetUsersAsync();
     Task<User?> GetUserAsync(string id);
     Task<bool> UserExist(string username);
@@ -17,15 +17,5 @@ public interface IMongoDbServices
     Task UpdateUserAsync(string id, User updatedUser);
     Task RemoveUserAsync(string id);
 
-    
-    Task<List<Folder>> GetFolders();
-    Task<OkResult> CreateFolder(FolderRequest folderRequest);
-    Task<UpdateResult> UpdateFolderName(FolderRequest folderRequest);
-    Task<DeleteResult> DeleteFolder(string folderId);
-
-    Task<List<Picture>> GetPictures(string folderId);
-    Task<DeleteResult> DeletePicture(string pictureId);
-    Task<Folder> CreatePicture(PictureRequest pictureRequest);
-    Picture CreatePictureTest(byte[] binaryData, string name);
 }
 

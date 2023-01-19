@@ -13,6 +13,5 @@ public class User
     public string UserName { get; set; } = null!;
     
     [BsonElement("Password")]
-    public string Password { get; set; } = null!;
-
+    public string PasswordHash { get; set; } = null!;
 }
