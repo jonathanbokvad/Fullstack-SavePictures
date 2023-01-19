@@ -3,6 +3,7 @@ using ApiToDatabase.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace ApiToDatabase.Services
 {
@@ -25,14 +26,14 @@ namespace ApiToDatabase.Services
         => await _context.Find(x => x.UserName == username).FirstOrDefaultAsync();
         public async Task<bool> ValidateUserAsync(UserRequest userRequest)
         {
-            //EJ testadd
+            //EJ testadd!!!!
             var res = await _context
                 .CountDocumentsAsync(x => x.UserName == userRequest.UserName && 
-            _passwordHasher.VerifyHashedPassword(userRequest, x.Password, userRequest.Password) == PasswordVerificationResult.Success) > 0 ? true : false;
+            _passwordHasher.VerifyHashedPassword(userRequest, x.Password, userRequest.Password) == PasswordVerificationResult.Success) >= 1 ? true : false;
 
-            //await _userCollection.CountDocumentsAsync(x => x.UserName == user.UserName && x.PasswordHash == user.PasswordHash) >= 1 ? true : false;
             return res;
         }
+
         //public async Task<bool> ValidateUserAsync(User user)
         //{
         //    await _userCollection.CountDocumentsAsync(x => x.UserName == user.UserName && x.Password == user.Password) >= 1 ? true : false;
@@ -42,8 +43,17 @@ namespace ApiToDatabase.Services
 
         public async Task<bool> UserExist(string username)
             => await _context.CountDocumentsAsync(x => x.UserName == username) >= 1 ? true : false;
-        public async Task CreateUserAsync(User newUser)
-        => await _context.InsertOneAsync(newUser);
+
+        public async void CreateUserAsync(UserRequest userRequest)
+        {
+            User newUser = new()
+            {
+                Id = ObjectId.GenerateNewId().ToString(),
+                UserName = userRequest.UserName,
+                Password = _passwordHasher.HashPassword(userRequest, userRequest.Password),
+            };
+            await _context.InsertOneAsync(newUser);
+        }
 
         public async Task UpdateUserAsync(string id, User updatedUser)
         => await _context.ReplaceOneAsync(x => x.Id == id, updatedUser);

@@ -52,7 +52,7 @@ public class UserController : ControllerBase
     }
     [HttpPost]
     [Route("CreateAcc")]
-    public async Task<IActionResult> CreateUser(User newUser)
+    public async Task<IActionResult> CreateUser(UserRequest newUser)
     {
         //var req = HttpContext.Request.ReadFormAsync().Result;
         if (newUser is not null && !_userService.UserExist(newUser.UserName).Result)

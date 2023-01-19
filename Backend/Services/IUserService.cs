@@ -13,7 +13,7 @@ public interface IUserService
     Task<User?> GetUserAsync(string id);
     Task<bool> UserExist(string username);
     Task<User?> GetUserByNameAsync(string username);
-    Task CreateUserAsync(User newUser);
+    void CreateUserAsync(UserRequest userRequest);
     Task UpdateUserAsync(string id, User updatedUser);
     Task RemoveUserAsync(string id);
 
