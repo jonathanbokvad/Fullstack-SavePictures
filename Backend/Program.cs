@@ -1,5 +1,4 @@
 using ApiToDatabase.Data;
-using ApiToDatabase.Models;
 using ApiToDatabase.Models.RequestModels;
 using ApiToDatabase.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

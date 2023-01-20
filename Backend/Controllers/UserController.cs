@@ -37,7 +37,6 @@ public class UserController : ControllerBase
     {
         try
         {
-            
             //_jwtManager.ValidateToken(HttpContext.Request.Headers.Authorization.ToString().Split("Bearer ")[1]);
             if (_userService.ValidateUserAsync(userRequest).Result)
             {
@@ -55,7 +54,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> CreateUser(UserRequest userRequest)
     {
         //var req = HttpContext.Request.ReadFormAsync().Result;
-        if (userRequest is not null && !_userService.UserExist(userRequest.UserName))
+        if (userRequest is not null && !_userService.UserExist(userRequest.UserName).Result)
         {
             var newUser = await _userService.CreateUserAsync(userRequest);
             return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);

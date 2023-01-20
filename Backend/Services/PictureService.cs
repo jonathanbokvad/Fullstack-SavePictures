@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Options;
+using ApiToDatabase.Data;
 
 namespace ApiToDatabase.Services
 {

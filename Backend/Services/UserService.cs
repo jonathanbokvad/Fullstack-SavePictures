@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using Microsoft.Extensions.Options;
+using ApiToDatabase.Data;
 
 namespace ApiToDatabase.Services
 {

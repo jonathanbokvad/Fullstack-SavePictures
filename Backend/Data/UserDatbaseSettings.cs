@@ -1,4 +1,4 @@
-namespace ApiToDatabase.Models;
+namespace ApiToDatabase.Data;
 
 public class DatabaseSettings
 {
