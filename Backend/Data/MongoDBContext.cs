@@ -16,14 +16,14 @@ public class MongoDbContext
 {
     private readonly IMongoCollection<User> _context;
 
-    public MongoDbContext(IOptions<DatabaseSettings> userDatabaseSettings)
+    public MongoDbContext(IOptions<DatabaseSettings> databaseSettings)
     {
-        var mongoClient = new MongoClient(userDatabaseSettings.Value.ConnectionString);
+        var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
 
         var mongoDatabase = mongoClient
-        .GetDatabase(userDatabaseSettings.Value.DatabaseName);
+        .GetDatabase(databaseSettings.Value.DatabaseName);
 
         _context = mongoDatabase
-        .GetCollection<User>(userDatabaseSettings.Value.UsersCollectionName);
+        .GetCollection<User>(databaseSettings.Value.UsersCollectionName);
     }
 }
