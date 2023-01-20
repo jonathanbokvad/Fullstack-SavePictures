@@ -20,7 +20,7 @@ namespace ApiToDatabase.Services
         {
             var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
             var mongoDatabase = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
-            _context = mongoDatabase.GetCollection<Picture>("folders");
+            _context = mongoDatabase.GetCollection<Picture>("pictures");
         }
 
         public async Task<List<Picture>> GetPictures(string folderId)
