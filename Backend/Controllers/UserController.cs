@@ -57,8 +57,8 @@ public class UserController : ControllerBase
         //var req = HttpContext.Request.ReadFormAsync().Result;
         if (userRequest is not null && !_userService.UserExist(userRequest.UserName).Result)
         {
-            await _userService.CreateUserAsync(userRequest);
-            return CreatedAtAction(nameof(GetUser), new { id = userRequest.Id }, newUser);
+            var newUser = await _userService.CreateUserAsync(userRequest);
+            return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
         }
         return BadRequest();
     }

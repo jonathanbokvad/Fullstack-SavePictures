@@ -44,7 +44,7 @@ namespace ApiToDatabase.Services
         public async Task<bool> UserExist(string username)
             => await _context.CountDocumentsAsync(x => x.UserName == username) >= 1 ? true : false;
 
-        public async void CreateUserAsync(UserRequest userRequest)
+        public async Task<User> CreateUserAsync(UserRequest userRequest)
         {
             User newUser = new()
             {
@@ -53,6 +53,7 @@ namespace ApiToDatabase.Services
                 Password = _passwordHasher.HashPassword(userRequest, userRequest.Password),
             };
             await _context.InsertOneAsync(newUser);
+            return newUser;
         }
 
         public async Task UpdateUserAsync(string id, User updatedUser)
