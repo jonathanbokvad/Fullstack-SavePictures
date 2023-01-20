@@ -31,6 +31,16 @@ namespace ApiToDatabase.Services
         public async Task<bool> ValidateUserAsync(UserRequest userRequest)
         {
             //EJ testadd!!!!
+
+            //var pass = _passwordHasher.HashPassword(userRequest, userRequest.Password);
+
+            //var valid = _passwordHasher.VerifyHashedPassword(userRequest, pass, userRequest.Password);
+
+            //if(valid == PasswordVerificationResult.Success)
+            //{
+            //        return true;
+            //}
+
             var res = await _context
                 .CountDocumentsAsync(x => x.UserName == userRequest.UserName && 
             _passwordHasher.VerifyHashedPassword(userRequest, x.Password, userRequest.Password) == PasswordVerificationResult.Success) >= 1 ? true : false;
