@@ -12,7 +12,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
-builder.Services.Configure<UserDatabaseSettings>(
+builder.Services.Configure<DatabaseSettings>(
    builder.Configuration.GetSection("UserDatabase"));
 
 

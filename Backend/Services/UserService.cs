@@ -12,7 +12,7 @@ namespace ApiToDatabase.Services
     {
         private readonly IMongoCollection<User> _context;
         private readonly IPasswordHasher<UserRequest> _passwordHasher;
-        public UserService(IOptions<UserDatabaseSettings> userDatabaseSettings, IPasswordHasher<UserRequest> passwordHasher)
+        public UserService(IOptions<DatabaseSettings> userDatabaseSettings, IPasswordHasher<UserRequest> passwordHasher)
         {
             var mongoClient = new MongoClient(userDatabaseSettings.Value.ConnectionString);
             var mongoDatabase = mongoClient.GetDatabase(userDatabaseSettings.Value.DatabaseName);

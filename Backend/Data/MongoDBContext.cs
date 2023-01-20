@@ -16,7 +16,7 @@ public class MongoDbContext
 {
     private readonly IMongoCollection<User> _context;
 
-    public MongoDbContext(IOptions<UserDatabaseSettings> userDatabaseSettings)
+    public MongoDbContext(IOptions<DatabaseSettings> userDatabaseSettings)
     {
         var mongoClient = new MongoClient(userDatabaseSettings.Value.ConnectionString);
 

@@ -4,12 +4,20 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace ApiToDatabase.Services
 {
     public class FolderService: IFolderService
     {
         private readonly IMongoCollection<Folder> _context;
+
+        public FolderService(IOptions<DatabaseSettings> databaseSettings)
+        {
+            var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
+            var mongoDatabase = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
+            _context = mongoDatabase.GetCollection<Folder>("folders");
+        }
         public async Task<List<Folder>> GetFolders()
         {
             try

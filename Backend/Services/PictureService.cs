@@ -3,12 +3,26 @@ using ApiToDatabase.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.Extensions.Options;
 
 namespace ApiToDatabase.Services
 {
     public class PictureService : IPictureService
     {
         private readonly IMongoCollection<Picture> _context;
+        //public PictureService(IMongoCollection<Picture> context)
+        //{
+        //    _context = context;
+        //}
+
+        public PictureService(IOptions<DatabaseSettings> databaseSettings)
+        {
+            var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
+            var mongoDatabase = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
+            _context = mongoDatabase.GetCollection<Picture>("folders");
+        }
+
         public async Task<List<Picture>> GetPictures(string folderId)
         {
             ////Get navigated folder
