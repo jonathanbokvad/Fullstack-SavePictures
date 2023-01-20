@@ -14,7 +14,6 @@ namespace ApiToDatabase.Services
         {
             try
             {
-
                 //var foldersCollection = _userCollection.Database.GetCollection<Folder>("folders");
 
                 //List<Folder> folderslist = await foldersCollection.Find(_ => true).ToListAsync();
@@ -48,7 +47,7 @@ namespace ApiToDatabase.Services
                 Name = folderRequest.Name,
                 Pictures = new List<ObjectId> { }
             };
-
+            
             await _context.Database.GetCollection<Folder>("folders").InsertOneAsync(folder);
             return new OkResult();
         }

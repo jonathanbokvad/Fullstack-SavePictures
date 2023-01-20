@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using Microsoft.Extensions.Options;
 
 namespace ApiToDatabase.Services
 {
@@ -11,9 +12,11 @@ namespace ApiToDatabase.Services
     {
         private readonly IMongoCollection<User> _context;
         private readonly IPasswordHasher<UserRequest> _passwordHasher;
-        public UserService(IMongoCollection<User> context, IPasswordHasher<UserRequest> passwordHasher)
+        public UserService(IOptions<UserDatabaseSettings> userDatabaseSettings, IPasswordHasher<UserRequest> passwordHasher)
         {
-            _context = context;
+            var mongoClient = new MongoClient(userDatabaseSettings.Value.ConnectionString);
+            var mongoDatabase = mongoClient.GetDatabase(userDatabaseSettings.Value.DatabaseName);
+            _context = mongoDatabase.GetCollection<User>("Users");
             _passwordHasher = passwordHasher;
         }
 

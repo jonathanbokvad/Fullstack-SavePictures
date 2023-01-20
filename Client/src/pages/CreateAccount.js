@@ -3,22 +3,26 @@ const form = document.getElementById("create-user");
 if (form && form.addEventListener) {
 form.addEventListener('submit', function (e) {
     e.preventDefault();
-    
     const payload = new FormData(form);
 
     console.log([...payload]);
-  
-    fetch("https://localhost:7019/api/user",{
+
+    const password1 = payload.get("password1");
+    const password2 = payload.get("password2");
+    if(password1 !== password2){
+        return alert("Passwords need to match each other!")
+    }
+ 
+    fetch("https://localhost:7019/api/user/createacc",{
         method : "POST",
         body : JSON.stringify({
             "username" : payload.get("username"),
-            "password" : payload.get("password")
+            "password" : password1
         }),
         headers : {
             Authorization: "Bearer ",
             Accept: "application/json",
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "true"
         }})
         .then(response => {
             if (response.ok) {

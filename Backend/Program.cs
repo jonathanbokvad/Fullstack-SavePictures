@@ -1,5 +1,6 @@
 using ApiToDatabase.Data;
 using ApiToDatabase.Models;
+using ApiToDatabase.Models.RequestModels;
 using ApiToDatabase.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<UserDatabaseSettings>(
    builder.Configuration.GetSection("UserDatabase"));
 
+
 //builder.Services.AddScoped<MongoDbContext>(); // Kolla upp detty!!!
 
 builder.Services.AddScoped<IUserService, UserService>();
@@ -21,7 +23,7 @@ builder.Services.AddScoped<IFolderService, FolderService>();
 builder.Services.AddScoped<IPictureService, PictureService>();
 
 builder.Services.AddScoped<IJwtManager, JwtManager>();
-
+builder.Services.AddScoped<IPasswordHasher<UserRequest>, PasswordHasher<UserRequest>>();
 
 builder.Services.AddCors(options =>
 {
