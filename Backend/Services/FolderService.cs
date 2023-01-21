@@ -48,13 +48,14 @@ namespace ApiToDatabase.Services
 
         }
 
-        public async Task<OkResult> CreateFolder(FolderRequest folderRequest)
+        public async Task<OkResult> CreateFolder(CreateFolderRequest createFolderRequest)
         {
             Folder folder = new()
             {
                 Id = ObjectId.GenerateNewId().ToString(),
-                Name = folderRequest.Name,
-                Pictures = new List<ObjectId> { }
+                Name = createFolderRequest.Name,
+                Pictures = new List<ObjectId> { },
+                UserId = createFolderRequest.UserId
             };
             
             await _context.Database.GetCollection<Folder>("folders").InsertOneAsync(folder);

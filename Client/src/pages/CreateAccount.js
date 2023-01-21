@@ -36,7 +36,7 @@ form.addEventListener('submit', function (e) {
             // Save the token in a localstorage
               localStorage.setItem("token", `${data}`);
               console.log(data);
-              window.location.href = "pages/listview.html";
+            //   window.location.href = "pages/.html";
             }
         })
         .catch(error => {

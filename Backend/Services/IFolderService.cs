@@ -8,7 +8,7 @@ namespace ApiToDatabase.Services
     public interface IFolderService
     {
         Task<List<Folder>> GetFolders();
-        Task<OkResult> CreateFolder(FolderRequest folderRequest);
+        Task<OkResult> CreateFolder(CreateFolderRequest createFolderRequest);
         Task<UpdateResult> UpdateFolderName(FolderRequest folderRequest);
         Task<DeleteResult> DeleteFolder(string folderId);
     }

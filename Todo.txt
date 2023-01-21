@@ -4,3 +4,4 @@ validate Audience and issuer (set to true);
 
 Picture should scale depending on the screen size
 Check so inside the hideModal it works that the value for folderName resets after clicking update
+Check if i can add a folder in the mongoDb trough the application!

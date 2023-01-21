@@ -25,11 +25,11 @@ public class FoldersController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<List<Folder>>> CreateFolders(FolderRequest folderRequest)
+    public async Task<ActionResult<List<Folder>>> CreateFolders(CreateFolderRequest createFolderRequest)
     {
         try
         {
-            return Ok(await _folderService.CreateFolder(folderRequest));
+            return Ok(await _folderService.CreateFolder(createFolderRequest));
 
         }
         catch (Exception ex)

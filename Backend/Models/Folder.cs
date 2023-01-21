@@ -20,7 +20,7 @@ namespace ApiToDatabase.Models
         public List<ObjectId> Pictures { get; set; }
 
         [BsonElement("userId")]
-        public ObjectId UserId { get; set; }
+        public string UserId { get; set; }
     }
 }
 

@@ -40,12 +40,20 @@ namespace ApiToDatabase.Services
             //{
             //        return true;
             //}
+            var userInDatabase = await _context.Find(x => x.UserName == userRequest.UserName).FirstOrDefaultAsync();
 
-            var res = await _context
-                .CountDocumentsAsync(x => x.UserName == userRequest.UserName && 
-            _passwordHasher.VerifyHashedPassword(userRequest, x.Password, userRequest.Password) == PasswordVerificationResult.Success) >= 1 ? true : false;
+            var valid = _passwordHasher.VerifyHashedPassword(userRequest, userInDatabase.Password, userRequest.Password);
+            if(valid == PasswordVerificationResult.Success)
+            {
+                return true;
+            }
 
-            return res;
+            return false;
+            //var res = await _context
+            //    .CountDocumentsAsync(x => x.UserName == userRequest.UserName && 
+            //_passwordHasher.VerifyHashedPassword(userRequest, x.Password, userRequest.Password) == PasswordVerificationResult.Success) >= 1 ? true : false;
+
+            //return res;
         }
 
         //public async Task<bool> ValidateUserAsync(User user)
