@@ -6,7 +6,12 @@ window.addEventListener('load', () => {
 async function getFolders() {
     try {
       const userId = localStorage.getItem("currentUser");
-      const response = await fetch(`https://localhost:7019/api/folder?userId=${userId}`);
+      const response = await fetch(`https://localhost:7019/api/folder?userId=${userId}`, {
+        method : "GET",
+        headers: {
+          Authorization : localStorage.getItem("token")
+        }
+      });
       const data = await response.json();
       return data;
     } catch (error) {

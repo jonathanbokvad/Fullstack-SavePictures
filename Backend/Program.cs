@@ -12,10 +12,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.Configure<DatabaseSettings>(
-   builder.Configuration.GetSection("UserDatabase"));
-
-
-//builder.Services.AddScoped<MongoDbContext>(); // Kolla upp detty!!!
+   builder.Configuration.GetSection("MongoDatabase"));
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFolderService, FolderService>();
@@ -29,8 +26,8 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         policy =>
         {
-            policy.WithOrigins("http://127.0.0.1:5500")
-                .AllowAnyHeader()
+            //policy.WithOrigins("http://127.0.0.1:5500")
+                policy.AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowAnyOrigin();
         });

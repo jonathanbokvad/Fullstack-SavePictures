@@ -47,11 +47,6 @@ namespace ApiToDatabase.Services
             return newUser;
         }
 
-
-        //Ej använda ännu!!!!!!!!!!!!!!!!!
-        public async Task UpdateUserAsync(string id, User updatedUser)
-            => await _context.ReplaceOneAsync(x => x.Id == id, updatedUser);
-        
         public async Task DeleteUser(string userId)
         {
             var folders = await _context.Database.GetCollection<Folder>("folders")

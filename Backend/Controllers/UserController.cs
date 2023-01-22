@@ -19,7 +19,7 @@ public class UserController : ControllerBase
         _jwtManager = jwtManager;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet]
     public async Task<ActionResult<User?>> GetUser(string userId)
     {
         var user = await _userService.GetUserAsync(userId);

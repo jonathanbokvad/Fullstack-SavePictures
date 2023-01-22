@@ -24,6 +24,6 @@ public class MongoDbContext
         .GetDatabase(databaseSettings.Value.DatabaseName);
 
         _context = mongoDatabase
-        .GetCollection<User>(databaseSettings.Value.UsersCollectionName);
+        .GetCollection<User>(databaseSettings.Value.CollectionName);
     }
 }
