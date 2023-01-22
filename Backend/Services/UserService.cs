@@ -29,7 +29,7 @@ namespace ApiToDatabase.Services
         {
             var userInDatabase = await _context.Find(x => x.UserName == userRequest.UserName).FirstOrDefaultAsync();
             var isValid = _passwordHasher.VerifyHashedPassword(userRequest, userInDatabase.Password, userRequest.Password);
-            return isValid == PasswordVerificationResult.Success ? true : false;
+            return isValid == PasswordVerificationResult.Success;
         }
 
         public async Task<bool> UserExist(string username)
@@ -51,8 +51,23 @@ namespace ApiToDatabase.Services
         //Ej använda ännu!!!!!!!!!!!!!!!!!
         public async Task UpdateUserAsync(string id, User updatedUser)
             => await _context.ReplaceOneAsync(x => x.Id == id, updatedUser);
+        
+        public async Task DeleteUser(string userId)
+        {
+            var folders = await _context.Database.GetCollection<Folder>("folders")
+                .Find(Builders<Folder>.Filter.Where(x => x.UserId == ObjectId.Parse(userId)))
+                .ToListAsync();
 
-        public async Task RemoveUserAsync(string id)
-            => await _context.DeleteOneAsync(x => x.Id == id);
+            foreach (var folder in folders)
+            {
+                await _context.Database.GetCollection<Picture>("pictures")
+                    .DeleteManyAsync(Builders<Picture>.Filter.In("_id", folder.Pictures.Select(x => x)));
+
+            }
+            await _context.Database.GetCollection<Folder>("folders")
+                .DeleteManyAsync(Builders<Folder>.Filter.In(f => f.Id, folders.Select(x => x.Id)));
+
+            await _context.DeleteOneAsync(x => x.Id == userId);
+        }
     }
 }

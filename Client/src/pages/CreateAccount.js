@@ -10,10 +10,10 @@ form.addEventListener('submit', function (e) {
     const password1 = payload.get("password1");
     const password2 = payload.get("password2");
     if(password1 !== password2){
-        return alert("Passwords need to match each other!")
+        return alert("Both passwords need to match each other!")
     }
  
-    fetch("https://localhost:7019/api/user/createacc",{
+    fetch("https://localhost:7019/api/user/createacc", {
         method : "POST",
         body : JSON.stringify({
             "username" : payload.get("username"),
@@ -31,16 +31,14 @@ form.addEventListener('submit', function (e) {
             throw new Error("Request failed");
         })
         .then(data => {
-            //check if is not null or undefined, this would cause error when trying to save to localstorage
             if (data) {
-            // Save the token in a localstorage
               localStorage.setItem("token", `${data}`);
-              console.log(data);
-            //   window.location.href = "pages/.html";
+              alert("The account has been created!");
+              window.location.href = "../index.html";
             }
         })
         .catch(error => {
-            console.log(`Error: ${error}`);
+            console.log(`${error}`);
             alert("An error occurred. Please try again.");
         });
 })}

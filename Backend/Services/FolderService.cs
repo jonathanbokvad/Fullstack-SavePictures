@@ -52,7 +52,7 @@ namespace ApiToDatabase.Services
         {
             var folder = await _context.Find(x => x.Id == folderId).FirstOrDefaultAsync();
 
-            var MaybePicturesDeleted = await _context.Database.GetCollection<Picture>("pictures")
+            await _context.Database.GetCollection<Picture>("pictures")
                 .DeleteManyAsync(Builders<Picture>.Filter.In("_id", folder.Pictures.Select(x => ObjectId.Parse(x.ToString()))));
 
             return await _context.DeleteOneAsync(Builders<Folder>.Filter.Where(x => x.Id == folderId));

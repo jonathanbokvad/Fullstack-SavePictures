@@ -27,7 +27,7 @@ namespace ApiToDatabase.Services
 
                 //Get specific collection and query for all pictures that where inside our navigated folder
                 return await _context
-                    .Find(Builders<Picture>.Filter.In("_id", folder.Pictures.Select(x => ObjectId.Parse(x.ToString()))))
+                    .Find(Builders<Picture>.Filter.In("_id", folder.Pictures.Select(x => x)))
                     .ToListAsync();
         }
         public async Task<DeleteResult> DeletePicture(string folderId, string pictureId)

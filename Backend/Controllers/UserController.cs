@@ -20,9 +20,9 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<User?>> GetUser(string id)
+    public async Task<ActionResult<User?>> GetUser(string userId)
     {
-        var user = await _userService.GetUserAsync(id);
+        var user = await _userService.GetUserAsync(userId);
         if (user is null)
             return NotFound();
 
@@ -75,14 +75,16 @@ public class UserController : ControllerBase
     //    return NoContent();
     //}
 
-    //[HttpDelete("{id}")]
-    //public async Task<IActionResult> RemoveUser(string id)
-    //{
-    //    var user = await _userService.GetUserAsync(id);
-    //    if (user is null)
-    //        return NotFound();
+    [HttpDelete]
+    public async Task<IActionResult> DeleteUser(string userId)
+    {
+        var user = await _userService.GetUserAsync(userId);
+        if (user is null)
+        {
+            return NotFound();
+        }
 
-    //    await _userService.RemoveUserAsync(id);
-    //    return NoContent();
-    //}
+        await _userService.DeleteUser(userId);
+        return NoContent();
+    }
 }

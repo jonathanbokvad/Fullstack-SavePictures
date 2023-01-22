@@ -81,3 +81,14 @@ async function AddPicture() {
     }
     input.click();
 }
+
+async function deleteAccount(){
+    if(!confirm("Are you sure you want to delete your account?")){
+        return;
+    }
+    await fetch(`https://localhost:7019/api/user?userId=${localStorage.getItem("currentUser")}`, { method: "Delete"})
+    .then(response => response.json())
+    .then(data => data)
+    .catch(error => console.error(error));
+    window.location.href = "../index.html";
+    }
