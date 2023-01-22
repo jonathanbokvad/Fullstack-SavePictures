@@ -19,27 +19,29 @@ namespace ApiToDatabase.Services
             var mongoDatabase = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
             _context = mongoDatabase.GetCollection<Folder>("folders");
         }
-        public async Task<List<Folder>> GetFolders()
+        public async Task<List<Folder>> GetFolders(string userId)
         {
             try
             {
-                //var foldersCollection = _userCollection.Database.GetCollection<Folder>("folders");
+                var folders = await _context
+                    .Find(Builders<Folder>.Filter.Where(x => x.UserId == ObjectId.Parse(userId)))
+                    .ToListAsync();
 
                 //List<Folder> folderslist = await foldersCollection.Find(_ => true).ToListAsync();
-                //return folderslist;
+                return folders;
 
-                return new List<Folder> {
-                new Folder {
-                Id = "63bca2071107a8fb0d435e68",
-                Name = "Folder 1",
-                Pictures = new List<ObjectId>{new ObjectId("63bca20c1107a8fb0d435e69"), new ObjectId("63bca2111107a8fb0d435e6a") }
+                //    return new List<Folder> {
+                //    new Folder {
+                //    Id = "63bca2071107a8fb0d435e68",
+                //    Name = "Folder 1",
+                //    Pictures = new List<ObjectId>{new ObjectId("63bca20c1107a8fb0d435e69"), new ObjectId("63bca2111107a8fb0d435e6a") }
 
-            },
-            new Folder {
-                Id = "63bf0f7fe6f1167a5bbbf6cf",
-                Name = "Folder 2",
-             Pictures = new List<ObjectId>{new ObjectId("63bca20c1107a8fb0d435e69") }
-            }};
+                //},
+                //new Folder {
+                //    Id = "63bf0f7fe6f1167a5bbbf6cf",
+                //    Name = "Folder 2",
+                // Pictures = new List<ObjectId>{new ObjectId("63bca20c1107a8fb0d435e69") }
+                //}};
             }
             catch (Exception ex)
             {
@@ -58,13 +60,13 @@ namespace ApiToDatabase.Services
                 UserId = ObjectId.Parse(createFolderRequest.UserId)
             };
             
-            await _context.Database.GetCollection<Folder>("folders").InsertOneAsync(folder);
+            await _context.InsertOneAsync(folder);
             return new OkResult();
         }
 
         public async Task<UpdateResult> UpdateFolderName(FolderRequest folderRequest)
         {
-            var updateResult = await _context.Database.GetCollection<Folder>("folders").UpdateOneAsync(
+            var updateResult = await _context.UpdateOneAsync(
                  Builders<Folder>.Filter.Where(x => x.Id == folderRequest.FolderId),
                  Builders<Folder>.Update.Set("name", folderRequest.Name)
                  );
@@ -73,13 +75,14 @@ namespace ApiToDatabase.Services
         public async Task<DeleteResult> DeleteFolder(string folderId)
         {
             // EJ testad!!!
-            var folderCollection = _context.Database.GetCollection<Folder>("folders");
+            //var folderCollection = _context.Database.GetCollection<Folder>("folders");
 
-            var folder = await folderCollection.Find(x => x.Id == folderId).FirstOrDefaultAsync();
+            var folder = await _context.Find(x => x.Id == folderId).FirstOrDefaultAsync();
 
-            var MaybePicturesDeleted = await _context.Database.GetCollection<Picture>("pictures").DeleteManyAsync(Builders<Picture>.Filter.In("_id", folder.Pictures.Select(x => ObjectId.Parse(x.ToString()))));
+            var MaybePicturesDeleted = await _context.Database.GetCollection<Picture>("pictures")
+                .DeleteManyAsync(Builders<Picture>.Filter.In("_id", folder.Pictures.Select(x => ObjectId.Parse(x.ToString()))));
 
-            var deletedResult = await folderCollection.DeleteOneAsync(
+            var deletedResult = await _context.DeleteOneAsync(
                 Builders<Folder>.Filter.Where(x => x.Id == folderId)
                 );
 

@@ -1,11 +1,13 @@
 
 window.addEventListener('load', () => {
     renderFolders();
+    console.log(localStorage.getItem("currentUser"));
 });
 
 async function getFolders() {
     try {
-      const response = await fetch('https://localhost:7019/api/folder');
+      const userId = localStorage.getItem("currentUser");
+      const response = await fetch(`https://localhost:7019/api/folder?userId=${userId}`);
       const data = await response.json();
       console.log(data);
       return data;
@@ -20,7 +22,7 @@ async function renderFolders() {
     const folderContainer = document.querySelector('.folder-section');
   let tbody = '';
   for (const folder of folders) {
-    tbody += `<tr class="folder hover:bg-blue-600 cursor-pointer" data-folder-id="${folder.id}">
+    tbody += `<tr class="folder hover:bg-blue-800 cursor-pointer" data-folder-id="${folder.id}">
   <td class="p-3 ">
   ${folder.name}
       </td>
@@ -31,10 +33,10 @@ async function renderFolders() {
       ${folder}
       </td>
       <td class="p-3">
-        <button onclick="showModal(this, 'modal-update')" class="text-gray-400 hover:text-gray-100 mx-2 edit">
+        <button onclick="showModal(this, 'modal-update')" class="text-gray-400 hover:text-yellow-600 mx-2 edit">
           <i class="material-icons-outlined text-base edit-icon">edit</i>
         </button>
-        <button onclick="deleteFolder(this)" class="text-gray-400 hover:text-gray-100  ml-2 delete">
+        <button onclick="deleteFolder(this)" class="text-gray-400 hover:text-red-600 ml-2 delete">
           <i class="material-icons-round text-base delete-icon ">delete</i>
         </button>
         </td>
