@@ -76,11 +76,12 @@ async function addFolder(){
   await fetch("https://localhost:7019/api/folder", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({folderId: currentFolderId, name: inputValue})
+    body: JSON.stringify({folderId: currentFolderId, name: inputValue, userId: localStorage.getItem("currentUser")})
   })
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error(error));
+
   hideModal('modal', 'folderNameCreate');
   await renderFolders();
 }

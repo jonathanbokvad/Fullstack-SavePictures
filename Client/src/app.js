@@ -29,7 +29,8 @@ form.addEventListener('submit', function (e) {
             //check if is not null or undefined, this would cause error when trying to save to localstorage
             if (data) {
             // Save the token in a localstorage
-              localStorage.setItem("token", `${data}`);
+              localStorage.setItem("token", `${data[0]}`);
+              localStorage.setItem("currentUser", `${data[1]}`);
               console.log(data);
               window.location.href = "pages/foldersview.html";
             }

@@ -55,7 +55,7 @@ namespace ApiToDatabase.Services
                 Id = ObjectId.GenerateNewId().ToString(),
                 Name = createFolderRequest.Name,
                 Pictures = new List<ObjectId> { },
-                UserId = createFolderRequest.UserId
+                UserId = ObjectId.Parse(createFolderRequest.UserId)
             };
             
             await _context.Database.GetCollection<Folder>("folders").InsertOneAsync(folder);

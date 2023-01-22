@@ -28,7 +28,7 @@ namespace ApiToDatabase.Services
         => await _context.Find(x => x.Id == id).FirstOrDefaultAsync();
         public async Task<User?> GetUserByNameAsync(string username)
         => await _context.Find(x => x.UserName == username).FirstOrDefaultAsync();
-        public async Task<bool> ValidateUserAsync(UserRequest userRequest)
+        public async Task<(bool, User)> ValidateUserAsync(UserRequest userRequest)
         {
             //EJ testadd!!!!
 
@@ -45,10 +45,10 @@ namespace ApiToDatabase.Services
             var valid = _passwordHasher.VerifyHashedPassword(userRequest, userInDatabase.Password, userRequest.Password);
             if(valid == PasswordVerificationResult.Success)
             {
-                return true;
+                return (true, userInDatabase);
             }
 
-            return false;
+            return (false, userInDatabase);
             //var res = await _context
             //    .CountDocumentsAsync(x => x.UserName == userRequest.UserName && 
             //_passwordHasher.VerifyHashedPassword(userRequest, x.Password, userRequest.Password) == PasswordVerificationResult.Success) >= 1 ? true : false;
