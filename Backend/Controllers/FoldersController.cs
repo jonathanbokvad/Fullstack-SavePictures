@@ -1,6 +1,7 @@
 using ApiToDatabase.Models;
 using ApiToDatabase.Models.RequestModels;
 using ApiToDatabase.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiToDatabase.Controllers;
@@ -18,6 +19,7 @@ public class FoldersController : ControllerBase
     }
     
     [HttpGet]
+    //[Authorize]
     public async Task<ActionResult<List<Folder>>> GetFolders(string userId)
     {
         try
