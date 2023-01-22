@@ -21,34 +21,15 @@ namespace ApiToDatabase.Services
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<List<User>> GetUsersAsync()
-        => await _context.Find(_ => true).ToListAsync();
-
         public async Task<User?> GetUserAsync(string id)
-        => await _context.Find(x => x.Id == id).FirstOrDefaultAsync();
+            => await _context.Find(x => x.Id == id).FirstOrDefaultAsync();
         public async Task<User?> GetUserByNameAsync(string username)
-        => await _context.Find(x => x.UserName == username).FirstOrDefaultAsync();
-        public async Task<(bool, User)> ValidateUserAsync(UserRequest userRequest)
+            => await _context.Find(x => x.UserName == username).FirstOrDefaultAsync();
+        public async Task<bool> ValidateUserAsync(UserRequest userRequest)
         {
-            //EJ testadd!!!!
-
-            //var pass = _passwordHasher.HashPassword(userRequest, userRequest.Password);
-
-            //var valid = _passwordHasher.VerifyHashedPassword(userRequest, pass, userRequest.Password);
-
-            //if(valid == PasswordVerificationResult.Success)
-            //{
-            //        return true;
-            //}
             var userInDatabase = await _context.Find(x => x.UserName == userRequest.UserName).FirstOrDefaultAsync();
-
-            var valid = _passwordHasher.VerifyHashedPassword(userRequest, userInDatabase.Password, userRequest.Password);
-            if(valid == PasswordVerificationResult.Success)
-            {
-                return (true, userInDatabase);
-            }
-
-            return (false, userInDatabase);
+            var isValid = _passwordHasher.VerifyHashedPassword(userRequest, userInDatabase.Password, userRequest.Password);
+            return isValid == PasswordVerificationResult.Success ? true : false;
         }
 
         public async Task<bool> UserExist(string username)
@@ -67,11 +48,11 @@ namespace ApiToDatabase.Services
         }
 
 
-        //Ej använda ännu
+        //Ej använda ännu!!!!!!!!!!!!!!!!!
         public async Task UpdateUserAsync(string id, User updatedUser)
-        => await _context.ReplaceOneAsync(x => x.Id == id, updatedUser);
+            => await _context.ReplaceOneAsync(x => x.Id == id, updatedUser);
 
         public async Task RemoveUserAsync(string id)
-        => await _context.DeleteOneAsync(x => x.Id == id);
+            => await _context.DeleteOneAsync(x => x.Id == id);
     }
 }

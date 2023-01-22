@@ -35,7 +35,7 @@ public class UserController : ControllerBase
         try
         {
             //_jwtManager.ValidateToken(HttpContext.Request.Headers.Authorization.ToString().Split("Bearer ")[1]);
-            if (_userService.ValidateUserAsync(userRequest).Result.Item1)
+            if (_userService.ValidateUserAsync(userRequest).Result)
             {
                 return Ok(new string[] { _jwtManager.CreateToken(), _userService.GetUserByNameAsync(userRequest.UserName).Result.Id } );
             }
