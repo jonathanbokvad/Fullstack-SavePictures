@@ -1,7 +1,6 @@
 
 window.addEventListener('load', () => {
     renderFolders();
-    console.log(localStorage.getItem("currentUser"));
 });
 
 async function getFolders() {
@@ -9,7 +8,6 @@ async function getFolders() {
       const userId = localStorage.getItem("currentUser");
       const response = await fetch(`https://localhost:7019/api/folder?userId=${userId}`);
       const data = await response.json();
-      console.log(data);
       return data;
     } catch (error) {
       console.error(error);
@@ -21,7 +19,8 @@ async function renderFolders() {
     const folders = await getFolders();
     const folderContainer = document.querySelector('.folder-section');
   let tbody = '';
-  for (const folder of folders) {
+  for (const folder of folders){
+    console.log(folder);
     tbody += `<tr class="folder hover:bg-blue-800 cursor-pointer" data-folder-id="${folder.id}">
   <td class="p-3 ">
   ${folder.name}
@@ -33,7 +32,7 @@ async function renderFolders() {
       ${folder}
       </td>
       <td class="p-3">
-        <button onclick="showModal(this, 'modal-update')" class="text-gray-400 hover:text-yellow-600 mx-2 edit">
+        <button onclick="showModal(this, 'modal-update')" class="text-gray-400 hover:text-yellow-500 mx-2 edit">
           <i class="material-icons-outlined text-base edit-icon">edit</i>
         </button>
         <button onclick="deleteFolder(this)" class="text-gray-400 hover:text-red-600 ml-2 delete">
@@ -48,10 +47,8 @@ async function renderFolders() {
         event.stopPropagation();
     });
 });
-    // Add event listeners to the folder elements
     const folderElements = document.querySelectorAll('.folder');
     for (const folderElement of folderElements) {
-      //console.log(folderElement);
       folderElement.addEventListener('click', function () {
         const folderId = folderElement.getAttribute('data-folder-id');
         window.location.href = '/Client/src/pages/pictureslist.html?folderId=' + folderId.toString();
@@ -83,7 +80,6 @@ async function addFolder(){
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error(error));
-
   hideModal('modal', 'folderNameCreate');
   await renderFolders();
 }
@@ -104,7 +100,6 @@ async function updateFolderName(){
 
 async function deleteFolder(element){
   const folderId = element.parentElement.parentElement.getAttribute("data-folder-id");
-  console.log("This is the Delete Folder function!")
   await fetch("https://localhost:7019/api/folder", {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },

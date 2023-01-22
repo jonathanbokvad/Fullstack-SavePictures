@@ -49,19 +49,7 @@ namespace ApiToDatabase.Services
             }
 
             return (false, userInDatabase);
-            //var res = await _context
-            //    .CountDocumentsAsync(x => x.UserName == userRequest.UserName && 
-            //_passwordHasher.VerifyHashedPassword(userRequest, x.Password, userRequest.Password) == PasswordVerificationResult.Success) >= 1 ? true : false;
-
-            //return res;
         }
-
-        //public async Task<bool> ValidateUserAsync(User user)
-        //{
-        //    await _userCollection.CountDocumentsAsync(x => x.UserName == user.UserName && x.Password == user.Password) >= 1 ? true : false;
-
-        //}
-
 
         public async Task<bool> UserExist(string username)
             => await _context.CountDocumentsAsync(x => x.UserName == username) >= 1 ? true : false;
@@ -78,6 +66,8 @@ namespace ApiToDatabase.Services
             return newUser;
         }
 
+
+        //Ej använda ännu
         public async Task UpdateUserAsync(string id, User updatedUser)
         => await _context.ReplaceOneAsync(x => x.Id == id, updatedUser);
 

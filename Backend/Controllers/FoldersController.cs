@@ -21,7 +21,14 @@ public class FoldersController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<Folder>>> GetFolders(string userId)
     {
-        return Ok(await _folderService.GetFolders(userId));
+        try
+        {
+            return Ok(await _folderService.GetFolders(userId));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPost]

@@ -19,10 +19,6 @@ public class UserController : ControllerBase
         _jwtManager = jwtManager;
     }
 
-    [HttpGet]
-    public async Task<List<User>> GetUsers()
-    => await _userService.GetUsersAsync();
-
     [HttpGet("{id}")]
     public async Task<ActionResult<User?>> GetUser(string id)
     {
@@ -32,6 +28,7 @@ public class UserController : ControllerBase
 
         return Ok(user);
     }
+
     [HttpPost]
     public async Task<IActionResult> LogIn(UserRequest userRequest)
     {
@@ -62,27 +59,30 @@ public class UserController : ControllerBase
         return BadRequest();
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(string id, User updatedUser)
-    {
-        var user = await _userService.GetUserAsync(id);
-        if (user is null)
-            return NotFound();
 
-        updatedUser.Id = user.Id;
+    //[HttpPut("{id}")]
+    //public async Task<IActionResult> UpdateUser(string id, User updatedUser)
+    //{
+    //    var user = await _userService.GetUserAsync(id);
+    //    if (user is null)
+    //    {
+    //        return NotFound();
+    //    }
 
-        await _userService.UpdateUserAsync(id, updatedUser);
-        return NoContent();
-    }
+    //    updatedUser.Id = user.Id;
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> RemoveUser(string id)
-    {
-        var user = await _userService.GetUserAsync(id);
-        if (user is null)
-            return NotFound();
+    //    await _userService.UpdateUserAsync(id, updatedUser);
+    //    return NoContent();
+    //}
 
-        await _userService.RemoveUserAsync(id);
-        return NoContent();
-    }
+    //[HttpDelete("{id}")]
+    //public async Task<IActionResult> RemoveUser(string id)
+    //{
+    //    var user = await _userService.GetUserAsync(id);
+    //    if (user is null)
+    //        return NotFound();
+
+    //    await _userService.RemoveUserAsync(id);
+    //    return NoContent();
+    //}
 }
