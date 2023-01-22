@@ -9,6 +9,5 @@ namespace ApiToDatabase.Services
         Task<List<Picture>> GetPictures(string folderId);
         Task<DeleteResult> DeletePicture(string pictureId);
         Task<Folder> CreatePicture(PictureRequest pictureRequest);
-        Picture CreatePictureTest(byte[] binaryData, string name);
     }
 }
