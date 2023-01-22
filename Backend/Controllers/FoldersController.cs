@@ -43,11 +43,11 @@ public class FoldersController : ControllerBase
     }
 
     [HttpPatch]
-    public async Task<ActionResult<List<Folder>>> UpdateFolderName(FolderRequest folderRequest)
+    public async Task<ActionResult<List<Folder>>> UpdateFolderName(UpdateFolderRequest updateFolderRequest)
     {
         try
         {
-            return Ok(await _folderService.UpdateFolderName(folderRequest));
+            return Ok(await _folderService.UpdateFolderName(updateFolderRequest));
 
         }
         catch (Exception ex)

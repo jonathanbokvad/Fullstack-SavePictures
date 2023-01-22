@@ -41,7 +41,7 @@ namespace ApiToDatabase.Services
             return new OkResult();
         }
 
-        public async Task<UpdateResult> UpdateFolderName(FolderRequest folderRequest)
+        public async Task<UpdateResult> UpdateFolderName(UpdateFolderRequest folderRequest)
         {
             return await _context.UpdateOneAsync(
                  Builders<Folder>.Filter.Where(x => x.Id == folderRequest.FolderId),
@@ -56,9 +56,7 @@ namespace ApiToDatabase.Services
             var MaybePicturesDeleted = await _context.Database.GetCollection<Picture>("pictures")
                 .DeleteManyAsync(Builders<Picture>.Filter.In("_id", folder.Pictures.Select(x => ObjectId.Parse(x.ToString()))));
 
-            return await _context.DeleteOneAsync(
-                Builders<Folder>.Filter.Where(x => x.Id == folderId)
-                );
+            return await _context.DeleteOneAsync(Builders<Folder>.Filter.Where(x => x.Id == folderId));
         }
     }
 }

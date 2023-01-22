@@ -9,7 +9,7 @@ namespace ApiToDatabase.Services
     {
         Task<List<Folder>> GetFolders(string userId);
         Task<OkResult> CreateFolder(CreateFolderRequest createFolderRequest);
-        Task<UpdateResult> UpdateFolderName(FolderRequest folderRequest);
+        Task<UpdateResult> UpdateFolderName(UpdateFolderRequest folderRequest);
         Task<DeleteResult> DeleteFolder(string folderId);
     }
 }

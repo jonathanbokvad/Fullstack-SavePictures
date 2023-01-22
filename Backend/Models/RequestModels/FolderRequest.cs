@@ -1,6 +1,6 @@
 ﻿namespace ApiToDatabase.Models.RequestModels;
 
-public class FolderRequest
+public class UpdateFolderRequest
 {
     public string FolderId { get; set; }
     public string Name { get; set; }
