@@ -5,3 +5,5 @@ validate Audience and issuer (set to true);
 
 Form validation, get message if user incorrectly inputed username and password.
 This also applies to password being the same in createAccountView. User should get feedback visually.
+
+Set the backend to accept nullable.

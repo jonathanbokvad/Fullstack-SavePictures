@@ -50,7 +50,6 @@ namespace ApiToDatabase.Services
         }
         public async Task<DeleteResult> DeleteFolder(string folderId)
         {
-
             var folder = await _context.Find(x => x.Id == folderId).FirstOrDefaultAsync();
 
             var MaybePicturesDeleted = await _context.Database.GetCollection<Picture>("pictures")
