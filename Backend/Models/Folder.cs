@@ -10,11 +10,12 @@ namespace ApiToDatabase.Models
         [BsonElement("_id")]
         public string? Id { get; set; }
 
-        //[BsonRepresentation(BsonType.Timestamp)]
-        //public string? creationTime { get; set; }
-
         [BsonElement("name")]
         public string Name { get; set; }
+
+        [BsonElement("CreationDate")]
+        [BsonRepresentation(BsonType.DateTime)]
+        public DateTime CreationDate { get; set; }
 
         [BsonElement("pictures")]
         public List<ObjectId> Pictures { get; set; }

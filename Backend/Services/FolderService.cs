@@ -32,6 +32,7 @@ namespace ApiToDatabase.Services
             {
                 Id = ObjectId.GenerateNewId().ToString(),
                 Name = createFolderRequest.Name,
+                CreationDate = DateTime.Now,
                 Pictures = new List<ObjectId> { },
                 UserId = ObjectId.Parse(createFolderRequest.UserId)
             };

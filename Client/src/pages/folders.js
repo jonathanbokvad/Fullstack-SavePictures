@@ -20,7 +20,6 @@ async function renderFolders() {
     const folderContainer = document.querySelector('.folder-section');
   let tbody = '';
   for (const folder of folders){
-    console.log(folder);
     tbody += `<tr class="folder hover:bg-blue-800 cursor-pointer" data-folder-id="${folder.id}">
   <td class="p-3 ">
   ${folder.name}
@@ -29,7 +28,7 @@ async function renderFolders() {
       ${folder.pictures.length}
       </td>
       <td class="p-3">
-      ${folder}
+      ${folder.creationDate.substring(0, 10)}
       </td>
       <td class="p-3">
         <button onclick="showModal(this, 'modal-update')" class="text-gray-400 hover:text-yellow-500 mx-2 edit">

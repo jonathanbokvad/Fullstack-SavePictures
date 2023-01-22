@@ -10,11 +10,8 @@ namespace ApiToDatabase.Controllers;
 public class FoldersController : ControllerBase
 {
     private readonly IFolderService _folderService;
-    //private readonly IMongoCollection<Folder> _folders;
-
     public FoldersController(IFolderService userService)
     {
-        //  _folders = database.GetCollection<Folder>("folders");
         _folderService = userService;
     }
 
