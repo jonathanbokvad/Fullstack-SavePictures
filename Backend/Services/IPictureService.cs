@@ -7,7 +7,7 @@ namespace ApiToDatabase.Services
     public interface IPictureService
     {
         Task<List<Picture>> GetPictures(string folderId);
-        Task<DeleteResult> DeletePicture(string pictureId);
+        Task<DeleteResult> DeletePicture(string folderId, string pictureId);
         Task<Folder> CreatePicture(PictureRequest pictureRequest);
     }
 }

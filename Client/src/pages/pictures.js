@@ -1,6 +1,5 @@
 window.onload = async function() {
-    const folderId = new URLSearchParams(window.location.search).get('folderId');
-    const pictures = await getPictures(folderId);
+    const pictures = await getPictures(new URLSearchParams(window.location.search).get('folderId'));
     renderPictures(pictures);
 } 
 
@@ -59,7 +58,7 @@ function DeletePicture(){
     const button = document.querySelector('.delete-btn');
     button.addEventListener('click', function (){
         const pictureId = this.parentNode.querySelector('img').getAttribute('data-picture-id');
-        fetch(`https://localhost:7019/api/pictures?pictureId=${pictureId}`, {method: 'DELETE'})
+        fetch(`https://localhost:7019/api/pictures?folderId=${new URLSearchParams(window.location.search).get('folderId')}&pictureId=${pictureId}`, {method: 'DELETE'})
         .then(response => response.json())
         .then(data => console.log(data))
         .catch(error => console.log(error))

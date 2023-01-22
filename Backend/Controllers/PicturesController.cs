@@ -10,14 +10,10 @@ namespace ApiToDatabase.Controllers
     public class PicturesController : ControllerBase
     {
         private readonly IPictureService _pictureService;
-        //private readonly IMongoCollection<Folder> _folders;
-
         public PicturesController(IPictureService pictureService)
         {
-            //  _folders = database.GetCollection<Folder>("folders");
             _pictureService = pictureService;
         }
-
 
         [HttpGet]
         public async Task<ActionResult<List<Picture>>> GetPicturesFromFolder(string folderId)
@@ -32,11 +28,11 @@ namespace ApiToDatabase.Controllers
             }
         }
         [HttpDelete]
-        public async Task<IActionResult> DeletePicture(string pictureId) 
+        public async Task<IActionResult> DeletePicture(string folderId, string pictureId) 
         {
             try
             {
-                var ds = await _pictureService.DeletePicture(pictureId);
+                var ds = await _pictureService.DeletePicture(folderId, pictureId);
                 return NoContent();
             }
             catch (Exception ex)
@@ -51,7 +47,7 @@ namespace ApiToDatabase.Controllers
         {
             try
             {   
-                var result = _pictureService.CreatePicture(pictureRequest);
+                var result = await _pictureService.CreatePicture(pictureRequest);
                 return Created("/api/pictures", result);
             }
             catch (Exception ex)
