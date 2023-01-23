@@ -1,7 +1,9 @@
-﻿namespace ApiToDatabase.Services
+﻿using ApiToDatabase.Models.RequestModels;
+
+namespace ApiToDatabase.Services
 {
     public interface IJwtManager
     {
-        string CreateToken();
+        string CreateToken(UserRequest userRequest);
     }
 }

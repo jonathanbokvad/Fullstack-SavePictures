@@ -27,7 +27,7 @@ namespace ApiToDatabase.Services
             => await _context.Find(x => x.UserName == username).FirstOrDefaultAsync();
         public async Task<bool> ValidateUser(UserRequest userRequest)
         {
-            var userInDatabase = await _context.Find(x => x.UserName == userRequest.UserName).FirstOrDefaultAsync();
+            var userInDatabase = await _context.Find(x => x.UserName == userRequest.Username).FirstOrDefaultAsync();
             var isValid = _passwordHasher.VerifyHashedPassword(userRequest, userInDatabase.Password, userRequest.Password);
             return isValid == PasswordVerificationResult.Success;
         }
@@ -40,7 +40,7 @@ namespace ApiToDatabase.Services
             User newUser = new()
             {
                 Id = ObjectId.GenerateNewId().ToString(),
-                UserName = userRequest.UserName,
+                UserName = userRequest.Username,
                 Password = _passwordHasher.HashPassword(userRequest, userRequest.Password),
             };
             await _context.InsertOneAsync(newUser);

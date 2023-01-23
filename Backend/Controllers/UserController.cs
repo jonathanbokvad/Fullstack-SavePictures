@@ -47,7 +47,7 @@ public class UserController : ControllerBase
         {
             if (_userService.ValidateUser(userRequest).Result)
             {
-                return Ok(new string[] { _jwtManager.CreateToken(), _userService.GetUserByName(userRequest.UserName).Result.Id });
+                return Ok(new string[] { _jwtManager.CreateToken(userRequest), _userService.GetUserByName(userRequest.Username).Result.Id });
             }
             return Unauthorized();
         }
@@ -63,7 +63,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            if (userRequest is not null && !_userService.UserExist(userRequest.UserName).Result)
+            if (userRequest is not null && !_userService.UserExist(userRequest.Username).Result)
             {
                 var newUser = await _userService.CreateUser(userRequest);
                 return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
