@@ -22,8 +22,8 @@ async function renderPictures() {
     const pictureContainer = document.querySelector('.imgGrid');
     let html = '';
     for (const picture of pictures) {
-      html += `<div>
-                <img data-picture-id="${picture.id}" class="picture hover:scale-105 transition-all w-full max-w-sm rounded overflow-hidden shadow-lg m-4 cursor-pointer" src="data:image/jpeg;base64, ${picture.binaryData}" alt="${picture.name}">
+      html += `<div class="mx-2">
+                <img data-picture-id="${picture.id}" class="picture mx-0 hover:scale-105 transition-all w-full max-w-sm rounded overflow-hidden shadow-lg m-4 cursor-pointer" src="data:image/jpeg;base64, ${picture.binaryData}" alt="${picture.name}">
                 </div>`;
 }
 pictureContainer.innerHTML = html;
@@ -35,8 +35,8 @@ const modalContainer = document.querySelector('.modal-container');
 
     for(const pictureElement of images){
         pictureElement.addEventListener('click', function() {
-            modalContainer.innerHTML = `<div class="modal-content py-4 text-left px-6 max-w-screen max-h-screen">
-            <img class="" data-picture-id="${pictureElement.getAttribute('data-picture-id')}" src="${pictureElement.src}" alt="${pictureElement.name}">     
+            modalContainer.innerHTML = `<div class="modal-content py-4 text-left px-4 max-w-screen max-h-screen">
+            <img data-picture-id="${pictureElement.getAttribute('data-picture-id')}" src="${pictureElement.src}" alt="${pictureElement.name}">     
             <button class="btn btn-blue mt-2 delete-btn">Delete</button>
           </div>`;
         modal.classList.remove('modal-close');
