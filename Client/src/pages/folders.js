@@ -20,7 +20,7 @@ async function getFolders() {
 }
 
 async function renderFolders() {
-  if(window.location.pathname === "/Client/src/pages/foldersview.html"){
+  // if(window.location.pathname === "/../../foldersview.html"){
     const folders = await getFolders();
     const folderContainer = document.querySelector('.folder-section');
   let tbody = '';
@@ -45,7 +45,7 @@ async function renderFolders() {
         </td>
     </tr>`;
   } folderContainer.innerHTML = tbody;
-  }
+  // }
   document.querySelectorAll('.edit, .delete').forEach(elem => {
     elem.addEventListener('click', function(event) {
         event.stopPropagation();
@@ -55,7 +55,7 @@ async function renderFolders() {
     for (const folderElement of folderElements) {
       folderElement.addEventListener('click', function () {
         const folderId = folderElement.getAttribute('data-folder-id');
-        window.location.href = '/Client/src/pages/pictureslist.html?folderId=' + folderId.toString();
+        window.location.href = 'pictureslist.html?folderId=' + folderId.toString();
       });
     }
 }
@@ -88,7 +88,7 @@ async function addFolder(){
   .then(data => console.log(data))
   .catch(error => console.error(error));
   hideModal('modal', 'folderNameCreate');
-  await renderFolders();
+  renderFolders();
 }
 
 async function updateFolderName(){

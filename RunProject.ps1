@@ -1,5 +1,4 @@
+start powershell {dotnet run --project backend}
 cd Client
-start-job -scriptblock { http-server -p 9090 --cors }
+live-server --open=src/index.html --cors
 cd ..
-Start-Process http://127.0.0.1:8080/Client/src/
-dotnet run --project backend
