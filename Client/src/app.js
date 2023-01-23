@@ -4,7 +4,7 @@ if (form && form.addEventListener) {
 form.addEventListener('submit', function (e) {
     e.preventDefault();   
     const payload = new FormData(form);
-    
+
     fetch("https://localhost:7019/api/user",{
         method : "POST",
         body : JSON.stringify({
@@ -34,6 +34,6 @@ form.addEventListener('submit', function (e) {
         })
         .catch(error => {
             console.log(`Error: ${error}`);
-            alert("An error occurred. Please try again.");
+            alert("An error occurred. Could be wrong username or password. Please try again.");
         });
 })}
