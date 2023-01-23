@@ -22,7 +22,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<User?>> GetUser(string userId)
+    public async Task<ActionResult<User>> GetUser(string userId)
     {
         try
         {
@@ -41,7 +41,7 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> LogIn(UserRequest userRequest)
+    public IActionResult LogIn(UserRequest userRequest)
     {
         try
         {
@@ -82,7 +82,6 @@ public class UserController : ControllerBase
     {
         try
         {
-
             var user = await _userService.GetUserById(userId);
             if (user is null)
             {

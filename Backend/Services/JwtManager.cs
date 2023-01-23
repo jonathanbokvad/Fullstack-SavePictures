@@ -22,12 +22,12 @@ namespace ApiToDatabase.Services
                 var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    Subject = new ClaimsIdentity(new[] {
-                        new Claim("Id", Guid.NewGuid().ToString()),
-                        //new Claim("kid", )
-                        //new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                        //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                    }),
+                    //Subject = new ClaimsIdentity(new[] {
+                    //    new Claim("Id", Guid.NewGuid().ToString()),
+                    //    //new Claim("kid", )
+                    //    //new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                    //    //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                    //}),
                     Expires = DateTime.UtcNow.AddMinutes(1),
                     Issuer = _config["Jwt:Issuer"],
                     Audience = _config["Jwt:Audience"],
@@ -41,31 +41,6 @@ namespace ApiToDatabase.Services
             {
                 throw new Exception(ex.Message);
             }
-        }
-
-        public bool ValidateToken(string token)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
-           //try
-            {
-                tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateLifetime= true,
-                    ClockSkew = TimeSpan.Zero
-                }, out SecurityToken validatedToken);
-                //var jwtToken = validatedToken as JwtSecurityToken;
-                //var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
-                return true;
-            }
-            //catch(Exception ex)
-            //{
-            //    throw new Exception(ex.Message);
-            //}
         }
     }
 }

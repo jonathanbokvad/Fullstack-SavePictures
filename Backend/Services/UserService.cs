@@ -21,9 +21,9 @@ namespace ApiToDatabase.Services
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<User?> GetUserById(string id)
+        public async Task<User> GetUserById(string id)
             => await _context.Find(x => x.Id == id).FirstOrDefaultAsync();
-        public async Task<User?> GetUserByName(string username)
+        public async Task<User> GetUserByName(string username)
             => await _context.Find(x => x.UserName == username).FirstOrDefaultAsync();
         public async Task<bool> ValidateUser(UserRequest userRequest)
         {

@@ -24,10 +24,7 @@ public class FoldersController : ControllerBase
     {
         try
         {
-            {
-                return Ok(await _folderService.GetFolders(userId));
-            }
-            return Unauthorized();
+            return Ok(await _folderService.GetFolders(userId));
         }
         catch (Exception ex)
         {
