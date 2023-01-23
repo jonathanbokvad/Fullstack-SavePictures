@@ -1,4 +1,4 @@
-using ApiToDatabase.Models;
+using ApiToDatabase.Models.DTOModels;
 using ApiToDatabase.Models.RequestModels;
 using ApiToDatabase.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +11,7 @@ namespace ApiToDatabase.Controllers;
 [ApiController]
 [Route("api/user")]
 [Authorize]
-public class UserController : ControllerBase 
+public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
     private readonly IJwtManager _jwtManager;
@@ -24,13 +24,19 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<User?>> GetUser(string userId)
     {
-        var user = await _userService.GetUserById(userId);
-        if (user is null)
+        try
         {
-            return NotFound();
+            var user = await _userService.GetUserById(userId);
+            if (user is null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
         }
-
-        return Ok(user);
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPost]
@@ -41,7 +47,7 @@ public class UserController : ControllerBase
         {
             if (_userService.ValidateUser(userRequest).Result)
             {
-                return Ok(new string[] { _jwtManager.CreateToken(), _userService.GetUserByName(userRequest.UserName).Result.Id } );
+                return Ok(new string[] { _jwtManager.CreateToken(), _userService.GetUserByName(userRequest.UserName).Result.Id });
             }
             return Unauthorized();
         }
@@ -55,24 +61,40 @@ public class UserController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> CreateUser(UserRequest userRequest)
     {
-        if (userRequest is not null && !_userService.UserExist(userRequest.UserName).Result)
+        try
         {
-            var newUser = await _userService.CreateUser(userRequest);
-            return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
+            if (userRequest is not null && !_userService.UserExist(userRequest.UserName).Result)
+            {
+                var newUser = await _userService.CreateUser(userRequest);
+                return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
+            }
+            return BadRequest("Empty request or user already exists!");
         }
-        return BadRequest();
+        catch (Exception ex)
+        {
+
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpDelete]
     public async Task<IActionResult> DeleteUser(string userId)
     {
-        var user = await _userService.GetUserById(userId);
-        if (user is null)
+        try
         {
-            return NotFound();
-        }
 
-        await _userService.DeleteUser(userId);
-        return NoContent();
+            var user = await _userService.GetUserById(userId);
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            await _userService.DeleteUser(userId);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

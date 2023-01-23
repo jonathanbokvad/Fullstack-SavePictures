@@ -1,4 +1,4 @@
-﻿using ApiToDatabase.Models;
+﻿using ApiToDatabase.Models.DTOModels;
 using ApiToDatabase.Models.RequestModels;
 using ApiToDatabase.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -21,8 +21,7 @@ namespace ApiToDatabase.Controllers
         public async Task<ActionResult<List<Picture>>> GetPicturesFromFolder(string folderId)
         {
             try
-            {
-                
+            { 
                 return Ok(await _pictureService.GetPictures(folderId));
             }
             catch (Exception ex)

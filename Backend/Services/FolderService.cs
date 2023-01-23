@@ -1,11 +1,11 @@
 ﻿using ApiToDatabase.Models.RequestModels;
-using ApiToDatabase.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using ApiToDatabase.Data;
+using ApiToDatabase.Models.DTOModels;
 
 namespace ApiToDatabase.Services
 {

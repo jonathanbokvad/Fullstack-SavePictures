@@ -26,7 +26,6 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         policy =>
         {
-            //policy.WithOrigins("http://127.0.0.1:5500")
                 policy.AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowAnyOrigin();
@@ -36,19 +35,18 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    //options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(o =>
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
 {
-    o.TokenValidationParameters = new TokenValidationParameters
+    options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        //ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidateIssuer = true,
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidateAudience = true,
         IssuerSigningKey = new SymmetricSecurityKey
            (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
-        //ValidateAudience = false,
         ValidateIssuerSigningKey = true,
-        ValidateIssuer = true,
-        ValidateAudience = false,
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero
     };
@@ -56,7 +54,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

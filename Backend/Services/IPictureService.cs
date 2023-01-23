@@ -1,6 +1,6 @@
 ﻿using ApiToDatabase.Models.RequestModels;
-using ApiToDatabase.Models;
 using MongoDB.Driver;
+using ApiToDatabase.Models.DTOModels;
 
 namespace ApiToDatabase.Services
 {

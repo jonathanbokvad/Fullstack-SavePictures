@@ -2,12 +2,9 @@ const form = document.getElementById("login");
 //check that form is defined and not null, also check if form has a addeventlistener method
 if (form && form.addEventListener) {
 form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    
+    e.preventDefault();   
     const payload = new FormData(form);
-
-    console.log([...payload]);
-  
+    
     fetch("https://localhost:7019/api/user",{
         method : "POST",
         body : JSON.stringify({

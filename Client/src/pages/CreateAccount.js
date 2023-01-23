@@ -5,8 +5,6 @@ form.addEventListener('submit', function (e) {
     e.preventDefault();
     const payload = new FormData(form);
 
-    console.log([...payload]);
-
     const password1 = payload.get("password1");
     const password2 = payload.get("password2");
     if(password1 !== password2){
@@ -20,8 +18,6 @@ form.addEventListener('submit', function (e) {
             "password" : password1
         }),
         headers : {
-            Authorization: "Bearer ",
-            Accept: "application/json",
             "Content-Type": "application/json",
         }})
         .then(response => {
@@ -32,13 +28,12 @@ form.addEventListener('submit', function (e) {
         })
         .then(data => {
             if (data) {
-              localStorage.setItem("token", `${data}`);
               alert("The account has been created!");
               window.location.href = "../index.html";
             }
         })
         .catch(error => {
-            console.log(`${error}`);
-            alert("An error occurred. Please try again.");
+            console.log(error);
+            alert("An error occurred. Could be that the user already exists, please try again.");
         });
 })}
