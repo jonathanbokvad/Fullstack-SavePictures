@@ -28,7 +28,7 @@ namespace ApiToDatabase.Services
                         //new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                         //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(2),
+                    Expires = DateTime.UtcNow.AddMinutes(1),
                     Issuer = _config["Jwt:Issuer"],
                     Audience = _config["Jwt:Audience"],
                     SigningCredentials = new SigningCredentials

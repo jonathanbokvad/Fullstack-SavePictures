@@ -21,14 +21,12 @@ namespace ApiToDatabase.Services
 
         public async Task<List<Picture>> GetPictures(string folderId)
         {
-                //Get navigated folder
-                Folder folder = await _context.Database.GetCollection<Folder>("folders")
-                    .Find(x => x.Id == folderId).FirstOrDefaultAsync();
+            Folder folder = await _context.Database.GetCollection<Folder>("folders")
+                .Find(x => x.Id == folderId).FirstOrDefaultAsync();
 
-                //Get specific collection and query for all pictures that where inside our navigated folder
-                return await _context
-                    .Find(Builders<Picture>.Filter.In("_id", folder.Pictures.Select(x => x)))
-                    .ToListAsync();
+            return await _context
+                .Find(Builders<Picture>.Filter.In("_id", folder.Pictures.Select(x => x)))
+                .ToListAsync();
         }
         public async Task<DeleteResult> DeletePicture(string folderId, string pictureId)
         {
@@ -50,9 +48,9 @@ namespace ApiToDatabase.Services
             };
 
             await _context.InsertOneAsync(picture);
-           return await _context.Database.GetCollection<Folder>("folders").FindOneAndUpdateAsync(
-                Builders<Folder>.Filter.Where(fold => fold.Id == pictureRequest.FolderId),
-                Builders<Folder>.Update.AddToSet(x => x.Pictures, ObjectId.Parse(picture.Id)));
+            return await _context.Database.GetCollection<Folder>("folders").FindOneAndUpdateAsync(
+                 Builders<Folder>.Filter.Where(fold => fold.Id == pictureRequest.FolderId),
+                 Builders<Folder>.Update.AddToSet(x => x.Pictures, ObjectId.Parse(picture.Id)));
         }
     }
 }

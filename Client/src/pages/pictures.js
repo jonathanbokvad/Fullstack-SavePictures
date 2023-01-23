@@ -4,7 +4,12 @@ window.onload = async function() {
 
 async function getPictures(folderId) {
     try {
-        const response = await fetch(`https://localhost:7019/api/pictures?folderId=${folderId}`, {method: 'GET'});
+        const response = await fetch(`https://localhost:7019/api/pictures?folderId=${folderId}`, {
+            method: 'GET',
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem("token")}`
+              }
+            });
         let data = await response.json();
         return data;
     } catch (error) {
@@ -49,7 +54,12 @@ function DeletePicture(){
     const button = document.querySelector('.delete-btn');
     button.addEventListener('click', async function (){
         const pictureId = this.parentNode.querySelector('img').getAttribute('data-picture-id');
-        await fetch(`https://localhost:7019/api/pictures?folderId=${new URLSearchParams(window.location.search).get('folderId')}&pictureId=${pictureId}`, {method: 'DELETE'})
+        await fetch(`https://localhost:7019/api/pictures?folderId=${new URLSearchParams(window.location.search).get('folderId')}&pictureId=${pictureId}`, {
+            method: 'DELETE',
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem("token")}`
+            }
+        })
         .then(response => response)
         .then(data => data)
         .catch(error => console.log(error));
@@ -70,7 +80,10 @@ async function AddPicture() {
           const base64 = btoa(new Uint8Array(byteArray).reduce((data, byte) => data + String.fromCharCode(byte), ''));
           await fetch("https://localhost:7019/api/pictures/create", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                Authorization : `Bearer ${localStorage.getItem("token")}`
+              },
             body: JSON.stringify({ data: base64, name: file.name, folderId: folderId})
           })
             .then(response => response.json())
@@ -86,7 +99,12 @@ async function deleteAccount(){
     if(!confirm("Are you sure you want to delete your account?")){
         return;
     }
-    await fetch(`https://localhost:7019/api/user?userId=${localStorage.getItem("currentUser")}`, { method: "Delete"})
+    await fetch(`https://localhost:7019/api/user?userId=${localStorage.getItem("currentUser")}`, { 
+        method: "Delete",
+        headers: {
+            Authorization : `Bearer ${localStorage.getItem("token")}`
+          }
+    })
     .then(response => response.json())
     .then(data => data)
     .catch(error => console.error(error));

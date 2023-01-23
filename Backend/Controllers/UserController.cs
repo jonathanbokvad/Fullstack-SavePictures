@@ -1,6 +1,7 @@
 using ApiToDatabase.Models;
 using ApiToDatabase.Models.RequestModels;
 using ApiToDatabase.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace ApiToDatabase.Controllers;
 
 [ApiController]
 [Route("api/user")]
+[Authorize]
 public class UserController : ControllerBase 
 {
     private readonly IUserService _userService;
@@ -22,22 +24,24 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<User?>> GetUser(string userId)
     {
-        var user = await _userService.GetUserAsync(userId);
+        var user = await _userService.GetUserById(userId);
         if (user is null)
+        {
             return NotFound();
+        }
 
         return Ok(user);
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> LogIn(UserRequest userRequest)
     {
         try
         {
-            //_jwtManager.ValidateToken(HttpContext.Request.Headers.Authorization.ToString().Split("Bearer ")[1]);
-            if (_userService.ValidateUserAsync(userRequest).Result)
+            if (_userService.ValidateUser(userRequest).Result)
             {
-                return Ok(new string[] { _jwtManager.CreateToken(), _userService.GetUserByNameAsync(userRequest.UserName).Result.Id } );
+                return Ok(new string[] { _jwtManager.CreateToken(), _userService.GetUserByName(userRequest.UserName).Result.Id } );
             }
             return Unauthorized();
         }
@@ -48,37 +52,21 @@ public class UserController : ControllerBase
     }
     [HttpPost]
     [Route("createacc")]
+    [AllowAnonymous]
     public async Task<IActionResult> CreateUser(UserRequest userRequest)
     {
-        //var req = HttpContext.Request.ReadFormAsync().Result;
         if (userRequest is not null && !_userService.UserExist(userRequest.UserName).Result)
         {
-            var newUser = await _userService.CreateUserAsync(userRequest);
+            var newUser = await _userService.CreateUser(userRequest);
             return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
         }
         return BadRequest();
     }
 
-
-    //[HttpPut("{id}")]
-    //public async Task<IActionResult> UpdateUser(string id, User updatedUser)
-    //{
-    //    var user = await _userService.GetUserAsync(id);
-    //    if (user is null)
-    //    {
-    //        return NotFound();
-    //    }
-
-    //    updatedUser.Id = user.Id;
-
-    //    await _userService.UpdateUserAsync(id, updatedUser);
-    //    return NoContent();
-    //}
-
     [HttpDelete]
     public async Task<IActionResult> DeleteUser(string userId)
     {
-        var user = await _userService.GetUserAsync(userId);
+        var user = await _userService.GetUserById(userId);
         if (user is null)
         {
             return NotFound();

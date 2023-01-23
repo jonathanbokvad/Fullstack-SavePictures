@@ -36,19 +36,21 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    //options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(o =>
 {
     o.TokenValidationParameters = new TokenValidationParameters
     {
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
+        //ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey
-            (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+           (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+        //ValidateAudience = false,
+        ValidateIssuerSigningKey = true,
         ValidateIssuer = true,
         ValidateAudience = false,
         ValidateLifetime = true,
-        ValidateIssuerSigningKey = true
+        ClockSkew = TimeSpan.Zero
     };
 });
 
@@ -73,4 +75,5 @@ app.MapControllers();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.Run();

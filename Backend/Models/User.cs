@@ -10,8 +10,8 @@ public class User
     public string? Id { get; set; }
     
     [BsonElement("UserName")]
-    public string UserName { get; set; } = null!;
+    public string UserName { get; set; }
     
     [BsonElement("Password")]
-    public string Password { get; set; } = null!;
+    public string Password { get; set; }
 }

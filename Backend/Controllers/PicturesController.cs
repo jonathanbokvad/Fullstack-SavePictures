@@ -1,12 +1,14 @@
 ﻿using ApiToDatabase.Models;
 using ApiToDatabase.Models.RequestModels;
 using ApiToDatabase.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiToDatabase.Controllers
 {
     [Route("api/pictures")]
     [ApiController]
+    [Authorize]
     public class PicturesController : ControllerBase
     {
         private readonly IPictureService _pictureService;
@@ -20,6 +22,7 @@ namespace ApiToDatabase.Controllers
         {
             try
             {
+                
                 return Ok(await _pictureService.GetPictures(folderId));
             }
             catch (Exception ex)
@@ -32,7 +35,7 @@ namespace ApiToDatabase.Controllers
         {
             try
             {
-                var ds = await _pictureService.DeletePicture(folderId, pictureId);
+                await _pictureService.DeletePicture(folderId, pictureId);
                 return NoContent();
             }
             catch (Exception ex)

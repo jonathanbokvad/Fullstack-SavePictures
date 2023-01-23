@@ -8,6 +8,7 @@ namespace ApiToDatabase.Controllers;
 
 [Route("api/folder")]
 [ApiController]
+[Authorize]
 public class FoldersController : ControllerBase
 {
     private readonly IFolderService _folderService;
@@ -19,12 +20,10 @@ public class FoldersController : ControllerBase
     }
     
     [HttpGet]
-    //[Authorize]
     public async Task<ActionResult<List<Folder>>> GetFolders(string userId)
     {
         try
         {
-            if (_jwtmanager.ValidateToken(HttpContext.Request.Headers.Authorization))
             {
                 return Ok(await _folderService.GetFolders(userId));
             }

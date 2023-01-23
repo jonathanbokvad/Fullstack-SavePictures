@@ -21,11 +21,11 @@ namespace ApiToDatabase.Services
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<User?> GetUserAsync(string id)
+        public async Task<User?> GetUserById(string id)
             => await _context.Find(x => x.Id == id).FirstOrDefaultAsync();
-        public async Task<User?> GetUserByNameAsync(string username)
+        public async Task<User?> GetUserByName(string username)
             => await _context.Find(x => x.UserName == username).FirstOrDefaultAsync();
-        public async Task<bool> ValidateUserAsync(UserRequest userRequest)
+        public async Task<bool> ValidateUser(UserRequest userRequest)
         {
             var userInDatabase = await _context.Find(x => x.UserName == userRequest.UserName).FirstOrDefaultAsync();
             var isValid = _passwordHasher.VerifyHashedPassword(userRequest, userInDatabase.Password, userRequest.Password);
@@ -35,7 +35,7 @@ namespace ApiToDatabase.Services
         public async Task<bool> UserExist(string username)
             => await _context.CountDocumentsAsync(x => x.UserName == username) >= 1 ? true : false;
 
-        public async Task<User> CreateUserAsync(UserRequest userRequest)
+        public async Task<User> CreateUser(UserRequest userRequest)
         {
             User newUser = new()
             {

@@ -9,11 +9,11 @@ namespace ApiToDatabase.Services;
 
 public interface IUserService
 {
-    Task<bool> ValidateUserAsync(UserRequest userRequest);
-    Task<User?> GetUserAsync(string id);
+    Task<bool> ValidateUser(UserRequest userRequest);
+    Task<User?> GetUserById(string id);
     Task<bool> UserExist(string username);
-    Task<User?> GetUserByNameAsync(string username);
-    Task<User> CreateUserAsync(UserRequest userRequest);
+    Task<User?> GetUserByName(string username);
+    Task<User> CreateUser(UserRequest userRequest);
     Task DeleteUser(string id);
 }
 

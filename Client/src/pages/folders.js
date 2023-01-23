@@ -9,7 +9,7 @@ async function getFolders() {
       const response = await fetch(`https://localhost:7019/api/folder?userId=${userId}`, {
         method : "GET",
         headers: {
-          Authorization : localStorage.getItem("token")
+          Authorization : `Bearer ${localStorage.getItem("token")}`
         }
       });
       const data = await response.json();
@@ -78,7 +78,10 @@ async function addFolder(){
   var inputValue = document.getElementById("folderNameCreate").value;
   await fetch("https://localhost:7019/api/folder", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+     },
     body: JSON.stringify({name: inputValue, userId: localStorage.getItem("currentUser")})
   })
   .then(response => response.json())
@@ -92,7 +95,10 @@ async function updateFolderName(){
   var inputValue = document.getElementById("folderNameUpdate").value;
   await fetch("https://localhost:7019/api/folder", {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      "Content-Type": "application/json",
+      Authorization :`Bearer ${localStorage.getItem("token")}`
+    },
     body: JSON.stringify({folderId: currentFolderId, name: inputValue})
   })
   .then(response => response.json())
@@ -106,7 +112,10 @@ async function deleteFolder(element){
   const folderId = element.parentElement.parentElement.getAttribute("data-folder-id");
   await fetch("https://localhost:7019/api/folder", {
     method: "DELETE",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      "Content-Type": "application/json",
+        Authorization : `Bearer ${localStorage.getItem("token")}`
+    },
     body: JSON.stringify(folderId)
   })
   .then(response => response.json())
@@ -120,7 +129,12 @@ async function deleteAccount(){
   if(!confirm("Are you sure you want to delete your account?")){
     return;
   }
-await fetch(`https://localhost:7019/api/user?userId=${localStorage.getItem("currentUser")}`, { method: "Delete"})
+await fetch(`https://localhost:7019/api/user?userId=${localStorage.getItem("currentUser")}`, { 
+  method: "Delete",
+  headers: {
+    Authorization : `Bearer ${localStorage.getItem("token")}`
+  }
+})
 .then(response => response.json())
 .then(data => data)
 .catch(error => console.error(error));
