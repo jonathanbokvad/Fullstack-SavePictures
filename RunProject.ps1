@@ -1,4 +1,4 @@
 start powershell {dotnet run --project backend}
 cd Client
-live-server --open=src/index.html --cors
+start powershell {live-server --open=src/index.html --cors}
 cd ..
