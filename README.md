@@ -1,7 +1,7 @@
 # Fullstack Project
 This project allows users to create an account and log in. Upon successful validation when logging in, the backend generates and returns a JSON Web Token (JWT) which is subsequently 
-used for all API calls to the backend. The main features of the project include the ability for users to create folders, add and view pictures/images within those 
-folders, and view them in a modal view. Users also have the option to delete pictures, folders, and their entire account.
+used for all API calls to the backend. The main features of the project include the ability for users to create folders, save pictures/images within those 
+folders, and view the pictures in a modal view. Users also have the option to delete pictures, folders, and their entire account.
 
 
 ## Tech used
