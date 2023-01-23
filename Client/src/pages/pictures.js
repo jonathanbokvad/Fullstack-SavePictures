@@ -4,7 +4,7 @@ window.onload = async function() {
 
 async function getPictures(folderId) {
     try {
-        const response = await fetch(`https://localhost:7019/api/pictures?folderId=${folderId}`, {
+        const response = await fetch(`https://localhost:7019/api/picture?folderId=${folderId}`, {
             method: 'GET',
             headers: {
                 Authorization : `Bearer ${localStorage.getItem("token")}`
@@ -54,7 +54,7 @@ function DeletePicture(){
     const button = document.querySelector('.delete-btn');
     button.addEventListener('click', async function (){
         const pictureId = this.parentNode.querySelector('img').getAttribute('data-picture-id');
-        await fetch(`https://localhost:7019/api/pictures?folderId=${new URLSearchParams(window.location.search).get('folderId')}&pictureId=${pictureId}`, {
+        await fetch(`https://localhost:7019/api/picture?folderId=${new URLSearchParams(window.location.search).get('folderId')}&pictureId=${pictureId}`, {
             method: 'DELETE',
             headers: {
                 Authorization : `Bearer ${localStorage.getItem("token")}`
@@ -78,7 +78,7 @@ async function AddPicture() {
       reader.onloadend = async function() {
           const byteArray = new Uint8Array(reader.result);
           const base64 = btoa(new Uint8Array(byteArray).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-          await fetch("https://localhost:7019/api/pictures/create", {
+          await fetch("https://localhost:7019/api/picture/create", {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",

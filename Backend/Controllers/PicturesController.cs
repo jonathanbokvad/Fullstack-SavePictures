@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiToDatabase.Controllers
 {
-    [Route("api/pictures")]
+    [Route("api/picture")]
     [ApiController]
     [Authorize]
     public class PicturesController : ControllerBase
