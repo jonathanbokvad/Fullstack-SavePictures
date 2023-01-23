@@ -1,6 +1,0 @@
-//In Validatetoken method an error occurs when trying to
-validate Audience and issuer (set to true); 
-
-
-
-Set the backend to accept nullable.
