@@ -9,7 +9,6 @@ DaisyUi
 
 ### Backend
 ASP.NET Web API 6,
-JWT,
 MongoDB
 
 # Screenshots
