@@ -28,7 +28,6 @@ form.addEventListener('submit', function (e) {
             // Save the token in a localstorage
               localStorage.setItem("token", `${data[0]}`);
               localStorage.setItem("currentUser", `${data[1]}`);
-              console.log(data);
               window.location.href = "pages/foldersview.html";
             }
         })

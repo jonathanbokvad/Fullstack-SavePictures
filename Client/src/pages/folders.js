@@ -14,13 +14,13 @@ async function getFolders() {
       });
       const data = await response.json();
       return data;
-    } catch (error) {
+    } 
+    catch (error) {
       console.error(error);
     }
 }
 
 async function renderFolders() {
-  // if(window.location.pathname === "/../../foldersview.html"){
     const folders = await getFolders();
     const folderContainer = document.querySelector('.folder-section');
   let tbody = '';
@@ -44,8 +44,9 @@ async function renderFolders() {
         </button>
         </td>
     </tr>`;
-  } folderContainer.innerHTML = tbody;
-  // }
+  } 
+  folderContainer.innerHTML = tbody;
+
   document.querySelectorAll('.edit, .delete').forEach(elem => {
     elem.addEventListener('click', function(event) {
         event.stopPropagation();
@@ -85,7 +86,7 @@ async function addFolder(){
     body: JSON.stringify({name: inputValue, userId: localStorage.getItem("currentUser")})
   })
   .then(response => response.json())
-  .then(data => console.log(data))
+  .then(data => data)
   .catch(error => console.error(error));
   hideModal('modal', 'folderNameCreate');
   renderFolders();
@@ -102,7 +103,7 @@ async function updateFolderName(){
     body: JSON.stringify({folderId: currentFolderId, name: inputValue})
   })
   .then(response => response.json())
-  .then(data => console.log(data))
+  .then(data => data)
   .catch(error => console.error(error));
   hideModal('modal-update', 'folderNameUpdate');
   await renderFolders();
@@ -119,7 +120,7 @@ async function deleteFolder(element){
     body: JSON.stringify(folderId)
   })
   .then(response => response.json())
-  .then(data => console.log(data))
+  .then(data => data)
   .catch(error => console.error(error));
   hideModal('modal-update', 'folderNameUpdate');
   await renderFolders();
